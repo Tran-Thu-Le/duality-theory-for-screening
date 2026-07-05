@@ -2,7 +2,7 @@
 \label{sec:operators}
 
 This section does not study screening. It constructs the mathematical
-universe in which screening will later be defined: Fenchel--Rockafellar
+universe in which screening will later be defined: FR
 representations together with their primitive transformations. To
 study screening structurally, we first introduce a class of
 optimization representations together with the primitive
@@ -20,7 +20,6 @@ satisfies.
 
 \subsection{FR Representations}
 
-\paragraph{Motivation.}
 Every object in this paper, a convex optimization problem, its
 translate, its restriction, its dual, is encoded as a single
 algebraic quadruple, so that "translate," "restrict," and "dualize"
@@ -48,7 +47,7 @@ We write \(\operatorname{size}(p):=(m,n)\) the \emph{problem size}. We also refe
 We define $\Gamma_{m, n}$ to be the set of all function $p$ with problem size $(m, n)$, and $\Gamma$ to be the set of all FR representations of any size.
 
 \begin{definition}[FR representation]
-A Fenchel--Rockafellar representation is a quadruple
+An FR representation is a quadruple
 \[
 p\equiv (f,g,A,a),
 \]
@@ -78,7 +77,7 @@ When \(h\) is closed, proper, and convex, conjugation is an involution,
 \(h^{**}=h\), a fact used repeatedly below. The FR dual applies this
 conjugate to \(f\) and \(g\) separately.
 
-The Fenchel--Rockafellar dual of \(p=(f,g,A,a)\) is
+The FR dual of \(p=(f,g,A,a)\) is
 \[
 \max_{y \in \mathbb R^m}\;
 -d(y), \qquad d(y) = g^*(-A^\top y) + f^*(y)-a.
@@ -88,7 +87,7 @@ The dual function $d$ is itself an FR representation, with the problem size \((n
 
 
 \begin{definition}[FR Duality]
-The Fenchel--Rockafellar dual of \(p=(f,g,A,a)\) is
+The FR dual of \(p=(f,g,A,a)\) is
 \[
 p^*
 :=
@@ -154,7 +153,6 @@ using biconjugation \(f^{**}=f\), \(g^{**}=g\), which hold true since $f$ and $g
 
 \subsection{Translation}
 
-\paragraph{Motivation.}
 A screening operator will eventually need to absorb the contribution of
 a coordinate it is about to drop into the coordinates it keeps. That
 absorption happens at the level of individual convex functions, before
@@ -184,7 +182,6 @@ define, for a function \(h: \mathbb R^n \rightarrow \overline{\mathbb R}\),
 \]
 \end{definition}
 
-\paragraph{Insight.}
 Each of the three is a group action of its parameter space on the
 functions of the relevant type: composing two domain translations adds
 their parameters, and likewise for value and slope translations.
@@ -209,7 +206,6 @@ Here, we refer to $k$ as the translation parameter. We also define its dual by \
 where \(K^*=\mathbb{R}^n \times \mathbb{R} \times \mathbb{R}^m\) is the space of dual translation parameters.
 \end{definition}
 
-\paragraph{Insight.}
 Intuitively, the duality map \(k \mapsto k^*\) swaps the domain and slope translation parameters, and negates all three parameters.
 Thus, $*: K \to K^*$ is a duality map such that \((k^*)^*=k\).
 Note that, the matrix \(A\) is untouched by translation: only the two functions
@@ -228,7 +224,7 @@ T_{k_1}(T_{k_2}(p)).
 Section~\ref{sec:screening} will apply the translation action after
 choosing \(k\) as a function of the coordinates being screened. Before
 that, we establish this subsection's law: how the translation action
-interacts with Fenchel--Rockafellar duality.
+interacts with FR duality.
 
 
 
@@ -302,7 +298,7 @@ Every term matches \((T_k(p))^*\), which proves the theorem.
 
 \paragraph{Interpretation.}
 Translation is not just a transformation on FR representations, it is
-compatible with Fenchel--Rockafellar duality. Duality acts on the whole
+compatible with FR duality. Duality acts on the whole
 translation \emph{action}, not just on the representation: it is the
 same to translate first and dualize, or to dualize first and translate
 by the dual parameter. This is why Section~\ref{sec:screening} can
@@ -335,7 +331,6 @@ theorem.}
 
 \subsection{Restriction}
 
-\paragraph{Motivation.}
 Translation alone only ever moves a coordinate's contribution around;
 it never removes it. The second primitive, coordinate restriction, is
 what actually drops a block of coordinates from the representation:
@@ -369,7 +364,6 @@ R^{S}_J(f,g,A,a)
 \]
 \end{definition}
 
-\paragraph{Insight.}
 Feature restriction only touches \(g\) and the columns of \(A\); sample
 restriction only touches \(f\) and the rows of \(A\). Because they act
 on disjoint parts of \(p\), the order in which they are applied cannot

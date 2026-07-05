@@ -2,7 +2,23 @@
 \newcommand{\paperTitle}{Toward a Duality Theory for Feature and Sample Screening}
 
 \newcommand{\paperAbstract}{
-Feature screening and sample screening reduce the cost of convex optimization by removing, respectively, features or samples before the problem is solved. Although both rely on convex duality, they have been derived independently, model by model, and the mathematical relationship between the two paradigms has remained informal. This paper establishes that feature screening and sample screening are Fenchel-dual to each other: screening a subset of features on a primal representation of the problem is exactly screening the corresponding subset of samples on its Fenchel--Rockafellar dual. We prove this identity within a framework of Fenchel--Rockafellar representations equipped with two transformations, translation and restriction, each shown to be equivariant under duality; every screening operator decomposes into translation followed by restriction, which is what makes the two paradigms comparable in the first place. As consequences, intrinsic complexity reduction and simultaneous screening, previously established separately in the literature, follow directly from this duality. These results place feature and sample screening within a single mathematical structure, laying a foundation for a systematic theory of screening in machine learning.
+Feature screening and sample screening reduce the cost of convex
+optimization by removing, respectively, features or samples before the
+problem is solved. Although both rely on convex duality, they have
+been developed largely independently, model by model, and the
+mathematical relationship between the two paradigms has remained
+informal. In this paper, we introduce the class of Fenchel--Rockafellar
+(FR) representations, on which both screening and FR duality are
+defined as transformations. We then prove that screening is equivariant
+under FR duality. Thus, the duality between feature screening and
+sample screening is not merely an analogy between two types of
+screening rules, but a commutative relation between transformations on
+FR representations. The proof uses the structural fact that every
+screening operator factors into a translation followed by a restriction,
+whose primitive forms are equivariant under FR duality. These results
+provide a mathematical formulation of the duality between feature and
+sample screening, laying a foundation for a systematic duality theory
+of screening in machine learning.
 
 }
 

@@ -1,187 +1,154 @@
 \section{Introduction}
 \label{sec:intro}
 
-\noteCLAUDE{Context: large-scale convex optimization in machine
-learning, and screening as the general technique for reducing its
-cost.}
-Large-scale convex optimization is central to machine learning, and
-its cost is often reduced by screening: before or during optimization,
-a screening rule identifies a subset of features or samples that can
-be removed without altering the solution, reducing the size of the
-problem that must actually be solved.
+\noteCLAUDE{Context: large-scale and screening.}\noteLE{Verified.}
+Large-scale convex optimization is central to modern machine learning. In recent years, \emph{screening} methods have emerged as an effective technique for reducing problem size before or during optimization, thereby accelerating the solution of large-scale learning problems \citep{elghaoui2010}.
 
-\noteCLAUDE{Classification, kept brief: screening comes in several
-flavors; this paper picks one axis, feature versus sample, and one
-level, structural theory rather than the conditions that make a
-screening rule preserve the solution.}
-Screening methods can be classified along several axes: whether the
-reduction is provable or heuristic; how it is scheduled, statically,
-dynamically, or sequentially; and what it targets. This paper is
-concerned with the last axis, feature screening, which removes
-features, versus sample screening, which removes samples, and with the
-structural theory underlying both, not with the additional conditions
-needed to ensure a screening rule preserves the solution; such
-conditions are discussed only as motivation and future work.
+\noteCLAUDE{Classification of screening}
+\noteLE{Verified.}
+Screening methods have been studied from several complementary perspectives. According to whether they guarantee preservation of the optimal solution, they are broadly classified into safe screening methods \citep{elghaoui2010} and unsafe screening methods \citep{tibshirani2012strong,fan2018sure}. According to how screening is
+performed, they may be static
+\citep{elghaoui2010}, dynamic
+\citep{bonnefoy2014dynamic}, or sequential
+\citep{wang2013lasso}. Recent advances mainly focus on constructing
+tighter safe regions, including ball
+\citep{ndiaye2017gap,tran2025one}, dome
+\citep{tran2022beyond}, and ellipsoid
+\citep{dai2012ellipsoid} regions. The screening paradigm has also been generalized to related reduction mechanisms, including squeezing \citep{elvira2020safe}, relaxing \citep{guyard2022screen}, and peeling \citep{guyard2023safe}.
 
-\noteCLAUDE{Nature of the two targets, illustrated directly by their
-originating models in one sentence, so this does not repeat as a
-separate history paragraph later.}
-Feature screening acts on the coordinates of the optimization
-variable, and sample screening acts on the training points that define
-the loss, a distinction already visible in the models where each was
-first developed: feature screening in sparse learning models such as
-the Lasso, where many features are known in advance to be removable,
-and sample screening in kernel methods such as the support vector
-machine, where many samples are known in advance to be removable
-\citep{elghaoui2010safe,ogawa2014sample}.
+\noteCLAUDE{SCOPE}\noteLE{Verified.}
+This paper is concerned with a different axis of classification,
+namely the screening target: \emph{feature screening} and \emph{sample screening}.
+Rather than studying the safety conditions guaranteeing that a
+screening rule preserves the optimal solution, we study the
+mathematical structure underlying screening itself.
 
-\noteCLAUDE{The actual gap: shared reliance on duality, no shared
-derivation, and even later work that combines the two paradigms stops
-short of a common object. Ends deliberately without comment.}
-This shared reliance on convex duality has not translated into a
-shared derivation. Feature screening is typically derived from primal
-sparsity structures, while sample screening is developed through dual
-optimization formulations, so each new screening rule is established
-on a case-by-case basis, without a shared mathematical vocabulary
-connecting the two paradigms. Later work combined the two into
-simultaneous screening rules \citep{shibagaki2016simultaneous}, several
-of which are derived through Fenchel--Rockafellar duality
-\citep{ndiaye2017gap,yamada2021dynamic,tran2025one}, yet even these
-combined approaches derive feature and sample screening separately
-before pairing them; none formulates a common mathematical object of
-which both are manifestations. They appear to be dual.
+\noteCLAUDE{Historical development.}\noteLE{Verified.}
+Feature screening was first introduced for sparse learning models such
+as the Lasso, where inactive features can be identified and removed
+before optimization \citep{elghaoui2010safe}. Sample screening was
+later developed for the soft-margin support vector machine
+\citep{ogawa2014sample}. Historically, it was not introduced as an
+independent mathematical operation. Instead, the feature-screening
+philosophy was transferred to the SVM's dual problem, where the
+dual variables correspond to training samples, and the resulting
+elimination rule was interpreted as sample screening. Since then,
+feature screening and sample screening have evolved largely in
+parallel. They are now combined in simultaneous screening methods
+\citep{shibagaki2016simultaneous}, and several recent frameworks derive
+both through Fenchel--Rockafellar (FR) duality
+\citep{ndiaye2017gap,yamada2021dynamic,tran2025one}.
 
-\addCLAUDE{Deliberately no explanation after this sentence, so the
-question below lands as the reader's own reaction rather than a
-pre-empted one. Revisit if this reads as too abrupt once the rest of
-the introduction is in place.}
+\noteCLAUDE{Tension and gap.}\noteLE{Verified.}
+This historical development suggests a close relationship between feature screening and sample screening. Yet this relationship has never been formulated mathematically. Existing work derives screening rules for particular optimization models rather than defining screening itself as a model-independent mathematical transformation. Consequently, although feature screening and sample screening are widely regarded as primal--dual counterparts, the duality between them remains an informal intuition rather than a precise mathematical statement.
 
-\noteCLAUDE{This is the paper's only research question; nothing later
-should read as a second, competing question. Wording chosen because by
-this point the answer, duality in the sense of equivariance, is
-already implicit in "mathematical sense."}
 \begin{center}
-\emph{In what mathematical sense are feature screening and sample
-screening dual?}
+\emph{This naturally raises two fundamental questions. Can feature
+screening and sample screening be formulated as mathematical
+transformations independent of specific optimization models? If so, in
+what mathematical sense are they dual?}
 \end{center}
 
-\noteCLAUDE{The paper's one "no, but" move: pre-empts "this was already
-known informally" by naming formalization, not discovery, as the
-contribution. Appears exactly once, here.}
-The goal of this paper is not to argue that feature screening and
-sample screening are dual. Rather, it is to formulate this apparent
-duality as a precise mathematical statement by revealing its hidden
-structure.
 
-This is the paper's only research question. Existing screening methods
-are typically derived in a model-specific manner; our goal is not to
-derive another screening rule, but to identify the common mathematical
-structure underlying these derivations.
+\noteCLAUDE{Central idea.}\noteLE{Verified.}
+We answer these questions by formulating screening as
+model-independent transformations on FR representations. Defining
+screening independently of any particular optimization model requires
+a common class of optimization problems on which every screening
+procedure acts. Once such a class is identified, both
+FR duality and screening become transformations on
+the same mathematical objects, making their relationship meaningful
+and directly comparable.
 
-\noteCLAUDE{The one sentence a reader should remember, stated before any
-framework is introduced.}
-We introduce a common representation level on which both paradigms are
-expressed as transformations of the same mathematical object, so that
-Fenchel duality intertwines feature screening with sample screening.
-
-\noteCLAUDE{Explains why the main insight is not obvious, with no formulas
-yet: primal construction vs. dual construction look unrelated.}
-This insight is not obvious because the two constructions look, on the
-surface, unrelated. Feature screening fixes primal variables at a
-candidate value; sample screening replaces loss terms by a
-Fenchel--Young identity at a candidate dual point. One acts on primal
-variables, the other on dual variables, and a direct comparison
-between them is not possible without a common language for both.
-
-\noteCLAUDE{Introduces the paper's one central object, the FR
-representation, and its dual.}
-Convex optimization problems of the form
+\noteCLAUDE{Class of problems.}\noteLE{Verified.}
+Various screening methods act on convex optimization problems of the form
 \[
     \min_{x\in\mathbb R^n}
-    f(Ax)+g(x)+a,
+    p(x)=f(Ax)+g(x)+a,
     \qquad
     A\in\mathbb R^{m\times n},
     \qquad
     a\in\mathbb R,
 \]
-with separable
+with separable functions \(f\) and \(g\). The scalar component \(a\) is included to ensure that this class of representations is stable under the transformations considered in this paper.
+In machine learning, the columns of \(A\) represent features, whereas
+its rows represent samples.
+This class encompasses many standard learning models, including the Lasso, Elastic Net \citep{guyard2022screen}, logistic regression \citep{wang2014safe}, Huber regression \citep{chen2020safe}, Kullback--Leibler regression \citep{dantas2021safe}, and support vector machines (SVMs) \citep{zhai2020safe,nguyen2026gap}.
+
+
+
+\noteCLAUDE{Class of objects.}\noteLE{Verified.}
+We encode every optimization problem as a quadruple
 \(
-f(y)=\sum_{j=1}^m f_j(y_j)
+p=(f,g,A,a),
 \)
-and
+called a \emph{FR representation}, and denote by
+\(\Gamma\) the class of all FR representations. Since \(\Gamma\) is
+closed under FR duality, it provides a common
+mathematical language in which feature screening and sample screening
+can be formulated as transformations, rather than procedures tied to
+particular optimization models.
+
+Feature screening, restated and generalized in this paper, assumes
+that a block of variables satisfies \(x_{\bar I}=z\), where
+\(I\sqcup\bar I=\{1,\ldots,n\}\), and transforms the representation
+into\footnote{Throughout the introduction we omit the subscript
+parameters of \(S^F\) and \(S^S\) for readability.}
+\[
+    S^F(p)
+    =
+    f(A_Ix_I+A_{\bar I}z)
+    +g_I(x_I)
+    +a
+    +g_{\bar I}(z).
+\]
+The classical feature screening is recovered by the special case
+\(z=0\).
+
+Sample screening, restated and generalized in this paper, assumes
+\(s\in\partial f_{\bar J}(A_{\bar J}x)\), where
+\(J\sqcup\bar J=\{1,\ldots,m\}\). By the Fenchel--Young equality,
 \(
-g(x)=\sum_{i=1}^n g_i(x_i)
-\),
-are encoded as a single quadruple \(p=(f,g,A,a)\), an FR
-representation. Columns of \(A\) are features; rows are samples.
-
-\noteCLAUDE{Restates both screening constructions in the FR language, as
-direct assumptions on the representation rather than as properties of
-an optimal solution; this is what \emph{Why Is This Difficult?} needs
-so the two can be compared at all.}
-Feature screening, restated in this language, imposes the assumption
-\(x_{\bar I}=z\) for a block \(I\sqcup\bar I=\{1,\ldots,n\}\), which
-reduces the problem to
+f_{\bar J}(A_{\bar J}x)
+=
+\langle s,A_{\bar J}x\rangle
+-
+f_{\bar J}^*(s),
+\)
+the representation becomes
 \[
-    \min_{x_I}
-    f(A_Ix_I+A_{\bar I}z)+g_I(x_I)+a+g_{\bar I}(z).
+    S^S(p)
+    =
+    f_J(A_Jx)
+    +g(x)
+    +\langle A_{\bar J}^{\top}s,x\rangle
+    +a
+    -f_{\bar J}^*(s).
 \]
-Sample screening, restated in the same language, imposes the
-assumption \(s\in\partial f_{\bar J}(A_{\bar J}x)\) for a block
-\(J\sqcup\bar J=\{1,\ldots,m\}\); the Fenchel--Young equality
-\(f_{\bar J}(A_{\bar J}x)=\langle s,A_{\bar J}x\rangle-f_{\bar J}^*(s)\)
-then reduces the problem to
-\[
-    \min_x
-    f_J(A_Jx)+g(x)+\langle A_{\bar J}^{\top}s,x\rangle+a-f_{\bar J}^*(s).
-\]
-Within our framework, the dual variables used in sample screening
-admit a natural interpretation as fixing supporting slopes via the
-Fenchel--Young identity.\footnote{Throughout the introduction we write
-the operators \(S^F, S^S, R^F, R^S, T^F, T^S\) without their screening
-parameters, for readability.}
+The classical sample screening for SVMs is recovered by the special case
+\(s=0\).
 
-\noteCLAUDE{States the decomposition; this is the fact that makes the two
-constructions above comparable, not an assumed definition.}
-\noteLE{Removed the decomposition statement from the introduction, since I want audience focus on duality, nothing else.}
-% Both constructions above are proved, not assumed, to decompose as
-% \[
-%     S^F=R^F\circ T^F,
-%     \qquad
-%     S^S=R^S\circ T^S,
-% \]
-% where \(T^F\), \(T^S\) are translation actions and \(R^F\), \(R^S\) are
-% coordinate restrictions. This is what makes the two constructions
-% above comparable at all: both are now written in the same two
-% primitives.
+\noteCLAUDE{Structural insight.}\noteLE{Verified.}
+To understand the duality between feature screening and sample screening, we seek more primitive transformations from which both can be constructed.
+We show that both admit the
+same structural decomposition into a translation followed by a restriction, and both primitive transformations are \emph{equivariant} under
+FR duality.
 
-\noteCLAUDE{The framework is a proof strategy, not a second contribution;
-keep this subordinate to the main insight above. Names both duality
-laws the proof actually uses, not one.}
-To bridge this gap, we introduce a representation framework in which
-every screening operator decomposes into translation followed by
-restriction. Both primitives are equivariant under Fenchel--Rockafellar
-duality, a property we call Translation Duality and Restriction
-Duality respectively, and their composition is the algebraic mechanism
-connecting the two constructions. The framework exists only to make
-the main insight provable rather than assumed; it is a proof strategy,
-not a second contribution alongside it.
-
-\noteCLAUDE{The paper's one central theorem, stated once here, not proved;
-no other theorem should be introduced in the introduction. Presentation
-order is fixed: words, then formula, then plain restatement, then the
-diagram last, as interpretation rather than anchor.}
-The formulation promised above is the following identity.
+\noteCLAUDE{Answer to Q2.}\noteLE{Verified.}
+This immediately answers the second research question. Since every
+screening operator decomposes into two equivariant primitives,
+screening itself is equivariant under FR duality:
 \[
     (S^F(p))^*
     =
     S^S(p^*),
 \]
-where \(S^F\) denotes feature screening, \(S^S\) denotes sample
-screening, and \((\cdot)^*\) denotes Fenchel--Rockafellar duality.
-Feature screening on the primal representation is exactly sample
-screening on the dual representation, which is exactly the commutative
-diagram
+where \((\cdot)^*\) denotes the
+FR duality. This identity is the mathematical
+formulation of the duality between feature screening and sample
+screening: feature screening on a primal representation is exactly
+sample screening on its dual representation, expressed by the
+commutative diagram
 \[
 \begin{array}{ccc}
 p & \xrightarrow{S^F} & S^F(p)\\
@@ -190,46 +157,25 @@ p^* & \xrightarrow{S^S} & S^S(p^*)
 \end{array}
 \]
 
-\noteCLAUDE{Names the theorem's significance before any secondary result;
-consequences named here, detailed only in Section~\ref{sec:screening}.}
-This identity establishes a structural correspondence between the two
-screening paradigms. As a consequence, results developed for one
-paradigm can be transferred to the other through duality. Intrinsic
-complexity reduction and simultaneous screening both follow naturally
-from this correspondence: they are what the theorem produces, not
-separate reasons to care about it.
+\noteCLAUDE{Contributions.}\noteLE{Verified.}
+This paper makes two main contributions. First, we formulate feature
+screening and sample screening as model-independent transformations on
+FR representations, providing a common mathematical language for
+screening beyond individual optimization models. Second, we provide a
+precise mathematical formulation of the duality between feature
+screening and sample screening by proving that these transformations
+are dual in the sense above. To establish these results, we
+introduce the class of FR representations together with the primitive
+transformations of FR duality, translation, and
+restriction, and show that translation and restriction are equivariant
+under FR duality, so that the screening duality
+theorem follows from the structural decomposition of screening. As
+direct consequences, intrinsic complexity reduction and simultaneous
+screening follow naturally from this structural theory. By separating
+the mathematical structure of screening from the additional
+certificates required for safety, the proposed framework also provides
+a foundation for future extensions to safe screening methods.
 
-\noteCLAUDE{Three contributions, tiered to match the Result Hierarchy: a
-framework, the main duality result, and its corollaries. Names both
-duality laws, not the retired Fenchel Equivariance name.}
-This paper makes three contributions. The first is a representation
-framework, comprising translation and restriction together with their
-duality laws, Translation Duality and Restriction Duality, introduced
-only as the means to prove the second. The second, and central,
-contribution is feature--sample duality, the identity
-\((S^F(p))^*=S^S(p^*)\) stated above. The third comprises its
-consequences, intrinsic complexity reduction and simultaneous
-screening, both following from feature--sample duality.
 
-\noteCLAUDE{Narrative only, not a contribution; positions safe screening as
-future work built on this structural theory.}
-The paper separates the structural theory of screening from the
-semantic certificates required for safety. This provides a foundation
-for future work on safe screening rules, where one additionally
-imposes conditions ensuring that the screened problem preserves the
-solution set of the original problem.
-
-\noteCLAUDE{Previews Sections~\ref{sec:operators} and~\ref{sec:screening}
-without claiming results they haven't proved yet. Fixes the retired
-Fenchel Equivariance name and the banned optimality wording.}
-The rest of the paper is organized as follows. Section~\ref{sec:operators}
-introduces the primitive translation and restriction operations on
-Fenchel--Rockafellar representations and proves Translation Duality and
-Restriction Duality. Section~\ref{sec:screening} defines feature
-screening and sample screening from direct assumptions on the
-representation, immediately states the intrinsic complexity corollary,
-proves they decompose as translation followed by restriction, proves
-they are Fenchel-dual, the paper's main theorem, and immediately states
-the simultaneous screening corollary. The final section discusses how
-the framework can be extended toward safe screening rules by adding
-suitable safety conditions.
+\noteCLAUDE{Organization.}\noteLE{Verified.}
+The rest of the paper is organized as follows. Section~\ref{sec:operators} introduces FR representations together with the primitive transformations including duality, translation and restriction acting on them, providing the common mathematical environment for screening. Section~\ref{sec:screening} then defines feature screening and sample screening as transformations on this class of representations, proves that both decompose into translation and restriction, and establishes feature--sample duality as the main theorem. In this section, the intrinsic complexity reduction and simultaneous screening follow as immediate consequences.

@@ -6,10 +6,13 @@ in `paper.md`, working process lives in `agent.md`.
 
 ## Narrative (summary)
 
-One narrative throughout the paper: primitive translations and
-coordinate restrictions combine, via Fenchel Equivariance, into
-feature and sample screening, which are dual under the Fenchel
-transform. Full question, roadmap, and contributions: see `paper.md`.
+One narrative throughout the paper: translation and restriction are
+each equivariant under Fenchel--Rockafellar duality (Translation
+Duality, Restriction Duality); feature and sample screening decompose
+into these two primitives, and are therefore themselves equivariant
+under FR duality, feature screening on a primal representation
+answering to sample screening on its dual. Full question, roadmap, and
+contributions: see `paper.md`.
 
 ## Writing Philosophy
 
@@ -139,6 +142,31 @@ ready to write.
   when explicitly describing prior literature's own framing (e.g. "in
   the literature, feature screening typically eliminates a block of
   primal variables certified to vanish at the optimum").
+
+## Fenchel / FR Terminology (locked 2026-07-05)
+
+Four distinct terms, never used for each other's meaning:
+
+- **FR representation** — the quadruple `p=(f,g,A,a)`. Never "Fenchel
+  representation."
+- **FR duality** — the transformation `p ↦ p^*=(g^*,f^*,-A^T,-a)` on
+  representations. Never "Fenchel duality" when this transformation is
+  meant.
+- **Fenchel conjugate** — only for the conjugate of a single function,
+  `f^*`, `g^*` (or `h^*` in general). Never used for the
+  representation-level transformation above.
+- **Fenchel--Young equality** — only for the identity
+  `f(y)+f^*(s)=\langle s,y\rangle` (equivalently `s\in\partial f(y)`).
+  Never a stand-in for FR duality or the Fenchel conjugate.
+
+**Fenchel--Rockafellar, spelled out in full, is written exactly twice
+in the whole paper: once in the abstract, once in the introduction (its
+first appearance, where the abbreviation FR is introduced).** Every
+other occurrence, in every section, including the rest of the
+introduction, is abbreviated "FR." This applies to both "FR
+representation" and "FR duality." Do not spell out
+"Fenchel--Rockafellar" a second time anywhere, including inside
+theorem/definition/proof environments in doc2 or doc3.
 
 ## Citing Prior Work (added 2026-07-05)
 
