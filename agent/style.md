@@ -1,8 +1,8 @@
-# Writing Style
+# Writing and Presentation Principles
 
-This file controls **how the paper is written**. It fully determines
-style; content lives in `paper.md`, working process lives in
-`agent.md`.
+This file controls **how the paper is written**: prose style, but also
+narrative logic, claim discipline, and proof structure. Content lives
+in `paper.md`, working process lives in `agent.md`.
 
 ## Narrative (summary)
 
@@ -23,16 +23,42 @@ transform. Full question, roadmap, and contributions: see `paper.md`.
 - Use concise theorem statements.
 - Proofs emphasize ideas rather than calculations.
 
+## Paragraph Structure
+
+- Every paragraph communicates one mathematical idea.
+- The first sentence states the main point; the rest justify, explain,
+  or prepare the next idea.
+- Never mix motivation, definition, and interpretation in one
+  paragraph.
+- A paragraph that does this well makes the reader want the next one;
+  that is a consequence of following the rule above, not a separate
+  check to run.
+
 ## Audience and Tone
 
 - Audience: researchers in optimization and machine learning.
 - Tone: application-oriented, mathematical, insight-driven.
-- Short paragraphs. Average sentence length 15-20 words.
+- Average sentence length 15-20 words.
 
 ## Section Organization
 
 Every subsection contains, in order: Motivation, Definition, Insight,
 Transition.
+
+- **Motivation** explains why the next object is necessary. In
+  Section 1 (Introduction), motivation may be historical (screening's
+  development in the literature). In Sections 2-3 (the technical
+  body), motivate by the mathematical gap in the current narrative,
+  not by history: what does the reader already have, and what can they
+  not yet do with it.
+- **Insight** states what is mathematically new about the object just
+  introduced, not how its proof or construction works.
+- **Transition** explains why the next subsection is unavoidable, not
+  merely that it comes next.
+  - Avoid: *"We next define sample screening."*
+  - Prefer: *"Feature screening acts on primal variables. Its dual
+    counterpart requires a different assumption, leading to the
+    following definition."*
 
 ## Theorem Organization
 
@@ -48,13 +74,46 @@ idea, Discussion.
 - State the key step before executing it.
 - Push routine or mechanical computation to a remark, or omit it.
 
+## Mathematical Prose
+
+- Mathematics appears only when it advances the narrative.
+- Display an equation only when it defines a new object, states a
+  theorem, or expresses a key idea. Routine substitutions stay inline.
+- Avoid displaying an equation that merely restates the surrounding
+  prose.
+
+## Examples
+
+- An example illustrates the meaning of a definition; it is not a
+  miniature proof.
+- Emphasize why the example is representative, how it fits the
+  framework, and what insight it provides.
+- Avoid routine calculations that do not serve one of those three
+  purposes.
+
 ## Interpretation Style
 
 Every main theorem ends with a short interpretation explaining:
 
 - Why the theorem matters.
+- Why it was not obvious.
 - How it is used later.
 - Which central question it answers.
+
+The interpretation never repeats the theorem statement in different
+words; if it has nothing to add beyond "why/how/which," it is not
+ready to write.
+
+## Claim Discipline
+
+- Never overclaim. Every claim about the paper's own results must be
+  directly supported by a theorem, proof, or citation.
+- Prefer verbs that match what was actually shown: "shows,"
+  "establishes," "admits," "provides." Avoid verbs that claim more
+  than the result delivers: "solves," "completely characterizes,"
+  "unifies everything."
+- This is about claims the paper makes about itself; see "Citing Prior
+  Work" above for claims about other authors' work.
 
 ## Notation Rules
 
@@ -71,6 +130,15 @@ Every main theorem ends with a short interpretation explaining:
 - Always distinguish "screening" (the structural theory) from "safe
   screening" (the applied literature that motivates it, discussed
   only as motivation and future work, not as a contribution).
+- Do not use "optimal solution," "at the optimum," or "at optimality"
+  when stating this paper's own definitions or assumptions. This paper
+  studies screening structurally, not safe screening: the assumptions
+  behind `S^F`, `S^S` (e.g. `x_Ī=z`, `s∈∂f_J̄(A_J̄x)`) are stated as
+  direct, hypothetical relations on `p`, not as properties of an
+  optimal solution or a certificate. This phrasing is acceptable only
+  when explicitly describing prior literature's own framing (e.g. "in
+  the literature, feature screening typically eliminates a block of
+  primal variables certified to vanish at the optimum").
 
 ## Citing Prior Work (added 2026-07-05)
 
@@ -115,6 +183,9 @@ Every main theorem ends with a short interpretation explaining:
   rules reduce the intrinsic complexity").
 - Hedging filler: "obviously", "clearly", "indeed", "very", "actually".
 - Prefer instead: "therefore", "instead", "consequently", "thus".
+- "consider" as a throat-clearing opener ("Consider the following
+  problem...") — state the object directly instead. "introduce,"
+  "define," "construct" remain standard and acceptable.
 
 ## Consistency Rules
 

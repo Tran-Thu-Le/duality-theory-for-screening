@@ -11,18 +11,18 @@ the transformations considered in this paper, allowing screening to be
 formulated as a transformation of representations rather than as a
 model-specific optimization procedure.
 
-The section answers exactly one question -- what is the mathematical
-universe in which screening will be studied -- in three tiers: the
+The section answers exactly one question, what is the mathematical
+universe in which screening will be studied, in three tiers: the
 object (an FR representation), the transformations acting on it including duality, translation, restriction, and the structural law each transformation
-satisfies. 
+satisfies.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{FR Representations}
 
 \paragraph{Motivation.}
-Every object in this paper -- a convex optimization problem, its
-translate, its restriction, its dual -- is encoded as a single
+Every object in this paper, a convex optimization problem, its
+translate, its restriction, its dual, is encoded as a single
 algebraic quadruple, so that "translate," "restrict," and "dualize"
 can each be defined once, uniformly, instead of separately for every
 problem class that happens to arise.
@@ -44,7 +44,7 @@ with \(f\) and \(g\) closed, proper, and convex.
 We further assume that \(f\) and \(g\) are separable, \(f(y)=\sum_{j=1}^m f_j(y_j)\)
 and \(g(x)=\sum_{i=1}^n g_i(x_i)\), with each \(f_j\) and \(g_i\) closed, proper, and convex on $\mathbb{R}$. Here, at the first glance, \(a\) is a redundant constant since it does not affect the minimizer of \(p\). However, it is important to keep track of \(a\) because it is used as an absorbing constant in the following transformations. 
 
-The pair \((m,n)\) is called the \emph{problem size}, also the \emph{intrinsic complexity} of the problem. 
+We write \(\operatorname{size}(p):=(m,n)\) the \emph{problem size}. We also refer to it as the \emph{intrinsic complexity} of the corresponding min problem. 
 We define $\Gamma_{m, n}$ to be the set of all function $p$ with problem size $(m, n)$, and $\Gamma$ to be the set of all FR representations of any size.
 
 \begin{definition}[FR representation]
@@ -54,25 +54,16 @@ p\equiv (f,g,A,a),
 \]
 \end{definition}
 
-
-
-
-% \noteLE{Regularity added 2026-07-03 (paper.md TODO): every identity
-% below that involves a conjugate needs closed, proper, convex functions
-% for biconjugation (\(h^{**}=h\)) to hold. The Duality theorem in
-% Section~\ref{sec:screening} needs this not just for \(f\), \(g\)
-% themselves but for the separable blocks \(f_{\bar J}\), \(g_{\bar I}\)
-% that result from restriction -- see Lemma~\ref{lem:separable-sum-regular}
-% below for why those inherit it too.}
-
-
-
 An FR representation is not merely a convenient way to write down a
 problem. The quadruple \(p=(f,g,A,a)\) is designed so that the class of
 FR representations is \emph{closed} under the three transformations
 studied in this section including duality, translation and restriction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
 
 \subsection{Duality}
 
@@ -98,15 +89,17 @@ p^*
 \end{definition}
 
 Now, $*:\Gamma \to \Gamma$ is a transformation on the class of FR representations. 
-
 Duality exchanges the roles of \(f\) and \(g\), and it exchanges domain
 translation with slope translation (a function's domain and its slope
 are conjugate to each other, in the same sense that \(f\) and \(g^*\)
-are). The value parameter \(c\) plays no such role: it shifts the
-representation's own constant \(a\) directly, and duality negates that
-constant (just defined above). So \(k=(b,c,d)\) should dualize to a
-translation parameter that swaps and negates \(b\) and \(d\), and also
-negates \(c\), to stay consistent with the constant's own sign flip.
+are).
+
+
+% % The value parameter \(c\) plays no such role: it shifts the
+% representation's own constant \(a\) directly, and duality negates that
+% constant (just defined above). So \(k=(b,c,d)\) should dualize to a
+% translation parameter that swaps and negates \(b\) and \(d\), and also
+% negates \(c\), to stay consistent with the constant's own sign flip.
 
 
 
@@ -132,12 +125,7 @@ p,
 using biconjugation \(f^{**}=f\), \(g^{**}=g\), which hold true since $f$ and $g$ are closed, proper, and convex.
 \end{proof}
 
-\noteLE{This was missing before 2026-07-03; the Simultaneous Screening
-corollary of Section~\ref{sec:screening} uses it directly in its proof.
-Note it holds regardless of whether the dual's constant is \(a\) or
-\(-a\) -- negating twice returns to the original either way -- so this
-proposition alone could not have told us which convention to pick; the
-Duality theorem is what forced \(-a\) (see the correction below).}
+\noteCLAUDE{This result is used for simultaneous screening.} \noteLE{Verified.}
 
 
 
@@ -150,16 +138,22 @@ Duality theorem is what forced \(-a\) (see the correction below).}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
+
+
+
+
+
 \subsection{Translation}
 
 \paragraph{Motivation.}
 A screening operator will eventually need to absorb the contribution of
 a coordinate it is about to drop into the coordinates it keeps. That
 absorption happens at the level of individual convex functions, before
-it is ever assembled into an operation on a full representation -- hence
+it is ever assembled into an operation on a full representation, hence
 three primitive translations, one for each way a function can be
 shifted: in its domain, in its slope, in its value. All three are the
-same kind of object -- a translation -- so they are stated as one
+same kind of object, a translation, so they are stated as one
 family, distinguished only by which part of the function they shift.
 
 \begin{definition}[Primitive translations]
@@ -187,57 +181,14 @@ Each of the three is a group action of its parameter space on the
 functions of the relevant type: composing two domain translations adds
 their parameters, and likewise for value and slope translations.
 
-% \begin{proposition}[Abelian primitive translations]
-% Each translation family
-% \[
-% \{T^{\mathrm d}_b\},
-% \qquad
-% \{T^{\mathrm v}_c\},
-% \qquad
-% \{T^{\mathrm s}_d\}
-% \]
-% forms an Abelian family under composition.
-% \end{proposition}
-
-% \noteLE{Not currently cited by a Main Theorem. It was written for the
-% now-deleted Commutativity theorem of Section~\ref{sec:screening}; kept
-% as a basic structural fact about the primitive translations.}
-
 These three per-function translations combine into a single operation
 on a full FR representation.
 
-\begin{definition}[Translation parameter and its dual]
-    Let $K= \mathbb{R}^m \times \mathbb{R} \times \mathbb{R}^n$ be the space of translation parameters. A translation parameter is \(k=(b,c,d)\in K\). 
-    Its dual parameter is defined as
-    \[
-    k^*
-    :=
-    (-d,\;-c,\;-b).
-    \]
-\end{definition}
-
-Note that $K$ is an Abelian group under addition, and the duality map $k \mapsto k^*$ is an involution on $K$.
-
-% \noteLE{\textbf{History, updated 2026-07-03.} This definition has been
-% corrected twice, in opposite directions, and it is worth recording why.
-% Originally \(k^*=(-d,-c,-b)\), matched with \(p^*=(g^*,f^*,-A^\top,a)\)
-% (constant unchanged) -- inconsistent, since \((T_k(p))^*\) then has
-% constant \(a+c\) while \(T_{k^*}(p^*)\) has constant \(a-c\). First fix
-% (same day, earlier pass): keep \(p^*\) with \(a\) unchanged, change
-% \(k^*\) to \((-d,c,-b)\). This worked for Fenchel Equivariance alone,
-% but forced sample screening's canonical constant to \(+f_{\bar J}^*(s)\)
-% in Section~\ref{sec:screening}, which conflicted with the independent
-% optimization-motivated derivation (Fenchel--Young equality), which gives
-% \(-f_{\bar J}^*(s)\). Second fix (this version): negate \(p^*\)'s
-% constant instead (\(p^*=(g^*,f^*,-A^\top,-a)\)), which restores the
-% \emph{original} \(k^*=(-d,-c,-b)\) and, checked independently, also makes
-% the two sample-screening derivations agree. This is the version used
-% throughout Section~\ref{sec:screening} now.}
 
 
 
-\begin{definition}[Translation action]
-Let \(p=(f,g,A,a)\). The action of \(k=(b,c,d)\) on \(p\) is defined by
+\begin{definition}[Translation]
+Let \(p=(f,g,A,a)\in \Gamma_{m, n}\). The translation $T_k$ indexed by \(k=(b,c,d) \in K = \mathbb{R}^m \times \mathbb{R} \times \mathbb{R}^n\) on \(p\) is defined by \(T_k : \Gamma_{m, n} \rightarrow \Gamma_{m, n} \) such that 
 \[
 T_k(p)
 :=
@@ -246,27 +197,25 @@ T^{\mathrm s}_dg,\;
 A,\;
 a+c).
 \]
+Here, we refer to $k$ as the translation parameter. We also define its dual by \[k^*=(-d,-c,-b)\in K^*.\]
+where \(K^*=\mathbb{R}^n \times \mathbb{R} \times \mathbb{R}^m\) is the space of dual translation parameters.
 \end{definition}
 
 \paragraph{Insight.}
-The matrix \(A\) is untouched by translation: only the two functions
+Intuitively, the duality map \(k \mapsto k^*\) swaps the domain and slope translation parameters, and negates all three parameters.
+Thus, $*: K \to K^*$ is a duality map such that \((k^*)^*=k\).
+Note that, the matrix \(A\) is untouched by translation: only the two functions
 and the constant move. This is what lets restriction and translation
 later be composed without the matrix itself being disturbed by which
 primitive acts first.
 
-\begin{proposition}[Abelian translation action]
-The family \(\{T_k\}\) forms an Abelian translation action on
-the class of FR representations:
+It is clear that the family \(\{T_k\}\) forms an Abelian translation action on the class of FR representations:
 \[
 T_{k_1+k_2}(p)
 =
 T_{k_1}(T_{k_2}(p)).
 \]
-\end{proposition}
-
-\noteLE{Not used by any result in Section~\ref{sec:screening}. Kept as
-a basic structural fact: it is what makes \(T_k\) an honest group
-action.}
+\noteCLAUDE{Not currently cited by any result} \noteLE{verified. But kept because of its beauty. So keept it of this form, do not replace it by a proposition.}
 
 Section~\ref{sec:screening} will apply the translation action after
 choosing \(k\) as a function of the coordinates being screened. Before
@@ -276,7 +225,7 @@ interacts with Fenchel--Rockafellar duality.
 
 
 \begin{proposition}
-\label{prop:domain-dual}
+\label{prop:duality-of-primitive-translations}
 For every convex function $f: \mathbb{R}^n \to \overline{\mathbb{R}}$, $b,d \in \mathbb{R}^n$, and $c \in \mathbb{R}$, we have 
 \begin{enumerate}
     \item \((T^{\mathrm d}_bf)^* = T^{\mathrm s}_{-b}(f^*)\)
@@ -285,39 +234,29 @@ For every convex function $f: \mathbb{R}^n \to \overline{\mathbb{R}}$, $b,d \in 
 \end{enumerate}
 \end{proposition}
 
-\noteLE{Used in the Duality theorem (Section~\ref{sec:screening}) and
-in the proof of Fenchel Equivariance below.}
+\noteCLAUDE{Used in 
+in the proof of Translation Duality below.}\noteLE{Verified.}
 
-\noteLE{Not currently cited. This identity is about conjugating a
-value-\emph{shifted function}; it is not what governs how the
-translation action's own \(c\)-parameter behaves under duality -- that
-is elementary (see the proof below) and does not go through
-\(T^{\mathrm v}_c\)/\(T^{\mathrm v}_{-c}\) at all. Kept for completeness,
-as the third of the three primitive identities.}
 
-The previous identities admit a unified formulation -- this
+The previous identities admit a unified formulation: this
 subsection's law.
 
-\paragraph{Statement (the law of translation).}
-
-\begin{theorem}[Fenchel Equivariance]
+\begin{proposition}[Translation Duality]
 \label{thm:fenchel-equivariance}
 Let \(p\) be an FR representation and let \(k=(b,c,d)\) be a translation
 parameter. Then
 \[
-\boxed{
 (T_k(p))^*
 =
 T_{k^*}(p^*).
-}
 \]
-\end{theorem}
+\end{proposition}
 
 \paragraph{Proof.}
 Write \(p=(f,g,A,a)\), so \(T_k(p)=(T^{\mathrm d}_bf,\,T^{\mathrm
 s}_dg,\,A,\,a+c)\). Applying the FR dual, which negates the constant
 slot, \((f_0,g_0,A_0,a_0)^*=(g_0^*,f_0^*,-A_0^\top,-a_0)\), termwise, and
-using Proposition~\ref{prop:domain-dual},
+using Proposition~\ref{prop:duality-of-primitive-translations},
 \[
 (T_k(p))^*
 =
@@ -354,7 +293,7 @@ Every term matches \((T_k(p))^*\), which proves the theorem.
 \qed
 
 \paragraph{Interpretation.}
-Translation is not just a transformation on FR representations -- it is
+Translation is not just a transformation on FR representations, it is
 compatible with Fenchel--Rockafellar duality. Duality acts on the whole
 translation \emph{action}, not just on the representation: it is the
 same to translate first and dualize, or to dualize first and translate
@@ -364,16 +303,9 @@ get an exact duality between them: both are built from this one
 equivariant action, applied to the two different restrictions of the
 next subsection.
 
-\noteLE{Updated 2026-07-05: now cited by name. The Dual of screening
-theorem in Section~\ref{sec:screening} was rewritten to combine
-Decomposition, this theorem, and Restriction Equivariance
-(Proposition~\ref{prop:restriction-equivariance}) as three explicit
-steps, instead of re-deriving the equivalent computation directly from
-Proposition~\ref{prop:domain-dual} and the restriction lemmas alone.
-Those two lemmas are still used, but only to verify that the dual
-translation parameter produced by this theorem coincides with the one
-that directly defines screening on \(p^*\).}
-
+\noteCLAUDE{Used in  Section~\ref{sec:screening}'s Dual of screening
+theorem.}
+\noteLE{Verified.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -398,7 +330,7 @@ that directly defines screening on \(p^*\).}
 \paragraph{Motivation.}
 Translation alone only ever moves a coordinate's contribution around;
 it never removes it. The second primitive, coordinate restriction, is
-what actually drops a block of coordinates from the representation --
+what actually drops a block of coordinates from the representation:
 this is the other half of Screening~=~Translation~+~Restriction.
 
 
@@ -415,13 +347,13 @@ Simultaneous Screening discussion in Section~\ref{sec:screening}
 precise about which cross term appears.
 
 \begin{definition}[Feature and sample restriction]
-Let \(I\sqcup\bar I=\{1,\ldots,n\}\). Define
+Let \(I\sqcup\bar I=\{1,\ldots,n\}\) and \(J\sqcup\bar J=\{1,\ldots,m\}\). Define the feature restriction operator $R^{F}_I:\Gamma_{m,n}\to\Gamma_{m,|I|}$ and the sample restriction operator \(R^{S}_J:\Gamma_{m,n}\to\Gamma_{|J|,n}\) by
 \[
 R^{F}_I(f,g,A,a)
 :=
 (f,g_I,A_I,a).
 \]
-Let \(J\sqcup\bar J=\{1,\ldots,m\}\). Define
+and 
 \[
 R^{S}_J(f,g,A,a)
 :=
@@ -433,10 +365,10 @@ R^{S}_J(f,g,A,a)
 Feature restriction only touches \(g\) and the columns of \(A\); sample
 restriction only touches \(f\) and the rows of \(A\). Because they act
 on disjoint parts of \(p\), the order in which they are applied cannot
-matter -- this subsection's law.
+matter: this subsection's law.
 
 
-\begin{proposition}[Restriction Equivariance]
+\begin{proposition}[Restriction Duality]
 \label{prop:restriction-equivariance}
 For every \(p=(f,g,A,a)\in\Gamma\), every \(I\subseteq\{1,\ldots,n\}\),
 and every \(J\subseteq\{1,\ldots,m\}\),
@@ -468,135 +400,7 @@ R^S_I(p^*),
 the last equality by the definition of sample restriction applied to
 \(p^*=(g^*,f^*,-A^\top,-a)\). The second identity is the mirror
 computation, restricting \(R^S_J(p)=(f_J,g,A_J,a)\) instead, and using
-\((f_J)^*=(f^*)_J\) from the same lemma.
+\((f_J)^*=(f^*)_J\) by the same separability argument.
 \end{proof}
 
-\noteLE{Added 2026-07-05: restriction's counterpart to Fenchel
-Equivariance. Translation's law says dualizing a translation gives the
-same translation, dual parameter, on the dual representation
-(\(k\mapsto k^*\)); this says dualizing a feature restriction gives
-exactly a sample restriction, \emph{same index set}, on the dual
-representation, and symmetrically. Updated same day: now cited by name
-in Section~\ref{sec:screening}'s Duality theorem, rewritten to combine
-Decomposition, Fenchel Equivariance, and this proposition as three
-explicit steps rather than one monolithic computation; the
-restriction-conjugate lemmas are still used, but only to verify the
-resulting translation parameter. Positioning relative to Commutativity
-(this subsection's other law) is still open: paper.md's TODO on
-Duality as a third transformation should say whether this or
-Commutativity is "the" law of this subsection, or whether both are,
-now that duality is treated as a transformation on the same footing as
-translation and restriction.}
-
-\begin{proposition}[Commutativity]
-\label{prop:restrictions-commute}
-Feature restriction and sample restriction commute:
-\[
-\boxed{
-R^{F}_I
-R^{S}_J
-=
-R^{S}_J
-R^{F}_I.
-}
-\]
-\end{proposition}
-
-\noteLE{Restriction's structural counterpart to Fenchel Equivariance --
-repositioned 2026-07-05 from an incidental, unused proposition to this
-subsection's law, on the same footing as translation's law in the
-previous subsection. Still stated without proof (kept without proof
-per author instruction, 2026-07-03); the proof is one line, immediate
-from the Insight above (disjoint parts of \(p\)), and adding it is a
-separate, still-open decision (paper.md TODO), not resolved by this
-repositioning. Not currently cited by any result of
-Section~\ref{sec:screening} -- would be needed if a future result
-composes \(S^F\) and \(S^S\) on the same representation and compares
-orders directly (the dropped Commutativity theorem tried exactly this
-and failed for a different reason, an interaction through \(A\), not
-because this proposition is false; see paper.md's Open Problems
-history).}
-
-\begin{proposition}[Restriction is compatible with translation]
-\[
-\boxed{
-R(T_k(p))
-=
-T_{k'}(R(p)),
-}
-\]
-where \(k'\) is obtained by restricting the corresponding translation
-parameters to the remaining coordinates.
-\end{proposition}
-
-\noteLE{Kept without proof, per author instruction (2026-07-03). Not
-currently cited by a result in Section~\ref{sec:screening}. It was
-written for the now-deleted Commutativity theorem, which turned out to
-need more than this -- the gap found there was not in this proposition
-itself (a single restriction after a single translation, on one
-representation, does commute in this sense) but in composing \emph{two
-different} screening operators whose translation parameters are each
-derived from \(p\)'s own data. Kept as a true, general fact.}
-
-\begin{lemma}[Conjugate of a separable restriction]
-\label{lem:restrict-conjugate}
-Let \(h:\mathbb R^n\rightarrow\overline{\mathbb R}\) be separable,
-\(h(x)=\sum_{i=1}^n h_i(x_i)\), and let \(I\sqcup\bar I=\{1,\ldots,n\}\).
-Writing \(h_I(x_I):=\sum_{i\in I}h_i(x_i)\),
-\[
-\boxed{
-(h_I)^*=(h^*)_I.
-}
-\]
-\end{lemma}
-
-\begin{proof}
-Because \(h\) is separable, the supremum defining the conjugate splits
-over the independent coordinates \(x_i\):
-\(h^*(y)=\sum_{i=1}^n h_i^*(y_i)\). Restricting the same supremum to the
-block \(I\) alone,
-\[
-(h_I)^*(y_I)
-=
-\sup_{x_I}\Big\{\langle y_I,x_I\rangle-\sum_{i\in I}h_i(x_i)\Big\}
-=
-\sum_{i\in I}h_i^*(y_i)
-=
-(h^*)_I(y_I).
-\]
-\end{proof}
-
-\begin{lemma}[Separable sums preserve regularity]
-\label{lem:separable-sum-regular}
-Let \(h=\sum_{i=1}^n h_i\) be separable with each \(h_i\) closed, proper,
-convex. Then for every \(I\subseteq\{1,\ldots,n\}\), the restricted
-function \(h_I=\sum_{i\in I}h_i\) is also closed, proper, convex.
-\end{lemma}
-
-\begin{proof}
-Convexity is immediate: a sum of convex functions is convex. For
-properness, each \(h_i\) has a point where it is finite and is nowhere
-\(-\infty\); choosing such a point in each coordinate \(i\in I\) gives a
-point where \(h_I\) is finite, and \(h_I\) is nowhere \(-\infty\) since
-no summand is. For closedness, a finite sum of closed (lower
-semicontinuous) functions is closed: if \(x^{(k)}\to x_I\), then
-\(\liminf_k h_I(x^{(k)})=\liminf_k\sum_{i\in I}h_i(x^{(k)}_i)\geq
-\sum_{i\in I}\liminf_k h_i(x^{(k)}_i)\geq\sum_{i\in I}h_i(x_i)=h_I(x_I)\),
-using lower semicontinuity of each \(h_i\) and superadditivity of
-\(\liminf\) over a finite sum.
-\end{proof}
-
-\noteLE{Added 2026-07-03 (paper.md TODO). Needed by the Duality theorem
-of Section~\ref{sec:screening}: that proof requires \(g_{\bar I}\)
-(resp. \(f_{\bar J}\)) itself closed, proper, convex, to invoke
-biconjugation \(g_{\bar I}^{**}=g_{\bar I}\). The Separable
-representation definition above only states this for the individual
-summands \(g_i\); this lemma is what lets it transfer to any sub-sum.}
-
-This section introduced the mathematical universe used throughout the
-paper: a class of Fenchel--Rockafellar representations together with
-two primitive transformations, translation and restriction. The two
-transformations satisfy their respective structural laws -- Fenchel
-Equivariance and Commutativity -- which provide the mathematical
-ingredients used in the next section to define screening and establish
-Feature--Sample Duality.
+\noteCLAUDE{Restriction duality is used in the proof of the Dual of screening theorem in Section~\ref{sec:screening}.} \noteLE{Verified.}
