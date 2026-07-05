@@ -1,0 +1,95 @@
+\documentclass{article}
+% \usepackage{graphicx}
+\input{meta/data} % this file includes commands: \paperTitles, \paperAbstract, \paperKeywords, \paperDate
+\input{meta/macros}
+\input{meta/head-arxiv}
+
+\usepackage{float}
+
+
+% Ký tự toán
+% \usepackage{amssymb}   
+% \usepackage{amsmath}
+
+% Đánh số
+%\numberwithin{equation}{section}
+
+% Pseudocode
+%\usepackage{algorithm}
+%\usepackage{algpseudocode}
+
+% Pseudocode v2
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\SetKwInput{KwInput}{Input}
+\SetKwInput{KwOutput}{Output}
+\SetKwInput{KwInit}{Initialize}
+
+
+% Đồ thị
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{calc}
+
+% màu ref
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage[square,authoryear]{natbib}
+% hyperref + cleveref are loaded once, early, in meta/head-arxiv.tex --
+% loading hyperref again here (after cleveref) broke \Cref.
+
+% --- Thiết lập môi trường định lý (chung cho toàn bài) ---
+% \usepackage{amsthm} % Gói chuẩn để có theorem, lemma, proof,...
+
+% --- Định nghĩa các kiểu định lý ---
+% \theoremstyle{plain}
+% \newtheorem{theorem}{Theorem}
+% \newtheorem{lemma}{Lemma}
+% \newtheorem{proposition}{Proposition}
+% \newtheorem{corollary}{Corollary}
+% \theoremstyle{definition}
+% \newtheorem{definition}{Definition}
+% \theoremstyle{remark}
+% \newtheorem{remark}{Remark}
+
+
+
+\title{\paperTitle}
+\date{\paperDate}
+\author[1*]{\authorLe}
+% \author[1]{\authorTan}
+% \author[1]{\\ \authorThu}
+% \author[1]{\authorHau}
+\affil[1]{\affilLe}
+% \affil[2]{\affilHau \\ \texttt{\emailHau}}
+\affil[*]{\textit{Corresponding Author} \\ \texttt{\emailLe}}
+
+
+
+\begin{document}
+\maketitle
+\begin{abstract}
+    \paperAbstract
+\end{abstract}
+
+\tableofcontents
+
+%\input{docs/xx-comments}
+% \input{docs/doc1-intro}
+% \input{docs/doc2-group-action}
+% \input{docs/doc2-main}
+% \input{docs/doc3-category-structure}
+% \input{docs/doc3-conclusion}
+
+
+\input{docs-new/doc1-intro}
+\input{docs-new/doc2-universe}
+\input{docs-new/doc3-screening}
+\input{docs-new/doc4-sum}
+
+
+
+\pagebreak
+\bibliographystyle{plainnat}
+\bibliography{meta/refs}
+
+\end{document}

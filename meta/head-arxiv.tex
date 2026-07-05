@@ -1,0 +1,57 @@
+\usepackage{authblk}
+
+%% Vietnamese
+%\usepackage[utf8]{inputenc}    % Allow UTF-8 input
+%\usepackage[T5]{fontenc}       % Vietnamese font encoding
+%\usepackage[vietnamese]{babel} % Vietnamese hyphenation
+
+%% margin 
+% \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage[left=3cm, right=3cm]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+
+% hyperref + cleveref must load before \newtheorem: cleveref patches
+% \newtheorem so that theorem-like environments sharing one counter
+% (theorem/lemma/proposition/corollary/consequence below) each keep
+% their own displayed name in \cref/\Cref instead of all falling back
+% to the shared counter's base environment name ("Theorem").
+\usepackage[colorlinks=true,
+            linkcolor=blue,     % màu cho \ref, \eqref,...
+            citecolor=red,      % màu cho \cite
+            urlcolor=blue]{hyperref}   % luôn load trước
+\usepackage[capitalise,nameinlink,noabbrev]{cleveref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{consequence}[theorem]{Consequence}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+% All of the above share the "theorem" counter. cleveref's automatic
+% \newtheorem detection sometimes falls back to the shared counter's
+% own name ("Theorem") for \cref/\Cref instead of the environment that
+% was actually used; declaring names explicitly is the standard fix.
+\crefname{lemma}{Lemma}{Lemmas}
+\Crefname{lemma}{Lemma}{Lemmas}
+\crefname{proposition}{Proposition}{Propositions}
+\Crefname{proposition}{Proposition}{Propositions}
+\crefname{corollary}{Corollary}{Corollaries}
+\Crefname{corollary}{Corollary}{Corollaries}
+\crefname{consequence}{Consequence}{Consequences}
+\Crefname{consequence}{Consequence}{Consequences}
+\crefname{definition}{Definition}{Definitions}
+\Crefname{definition}{Definition}{Definitions}
+\crefname{assumption}{Assumption}{Assumptions}
+\Crefname{assumption}{Assumption}{Assumptions}
+\crefname{remark}{Remark}{Remarks}
+\Crefname{remark}{Remark}{Remarks}
+\crefname{example}{Example}{Examples}
+\Crefname{example}{Example}{Examples}
+
+\usepackage{tikz-cd}
