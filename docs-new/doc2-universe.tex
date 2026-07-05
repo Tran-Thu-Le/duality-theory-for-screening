@@ -1,4 +1,4 @@
-\section{FR Representations and Transformations}
+\section{FR Representations and Equivariant Transformations}
 \label{sec:operators}
 
 This section does not study screening. It constructs the mathematical
@@ -65,10 +65,18 @@ studied in this section including duality, translation and restriction.
 
 
 
-\subsection{Duality}
+\subsection{FR Duality}
 
-% main message: the dual of an FR representation is another FR representation, and duality is an involution on the class of FR representations. 
+% main message: the dual of an FR representation is another FR representation, and duality is an involution on the class of FR representations.
 
+For a function \(h:\mathbb R^n\to\overline{\mathbb R}\), its Fenchel
+conjugate is
+\[
+h^*(y):=\sup_{x\in\mathbb R^n}\{\langle y,x\rangle-h(x)\}.
+\]
+When \(h\) is closed, proper, and convex, conjugation is an involution,
+\(h^{**}=h\), a fact used repeatedly below. The FR dual applies this
+conjugate to \(f\) and \(g\) separately.
 
 The Fenchel--Rockafellar dual of \(p=(f,g,A,a)\) is
 \[
@@ -79,7 +87,7 @@ Here the constant \(a\) is negated in the dual, so that the weak duality inequal
 The dual function $d$ is itself an FR representation, with the problem size \((n, m)\). Therefore, FR duality is a transformation on the class of FR representations. 
 
 
-\begin{definition}[Duality]
+\begin{definition}[FR Duality]
 The Fenchel--Rockafellar dual of \(p=(f,g,A,a)\) is
 \[
 p^*
@@ -226,11 +234,11 @@ interacts with Fenchel--Rockafellar duality.
 
 \begin{proposition}
 \label{prop:duality-of-primitive-translations}
-For every convex function $f: \mathbb{R}^n \to \overline{\mathbb{R}}$, $b,d \in \mathbb{R}^n$, and $c \in \mathbb{R}$, we have 
+For every convex function $h: \mathbb{R}^n \to \overline{\mathbb{R}}$, $b,d \in \mathbb{R}^n$, and $c \in \mathbb{R}$, we have 
 \begin{enumerate}
-    \item \((T^{\mathrm d}_bf)^* = T^{\mathrm s}_{-b}(f^*)\)
-    \item \((T^{\mathrm s}_dg)^* = T^{\mathrm d}_{-d}(g^*)\)
-    \item \((T^{\mathrm v}_cf)^* = T^{\mathrm v}_{-c}(f^*)\)
+    \item \((T^{\mathrm d}_b h)^* = T^{\mathrm s}_{-b}(h^*)\)
+    \item \((T^{\mathrm s}_d h)^* = T^{\mathrm d}_{-d}(h^*)\)
+    \item \((T^{\mathrm v}_c h)^* = T^{\mathrm v}_{-c}(h^*)\)
 \end{enumerate}
 \end{proposition}
 
@@ -243,7 +251,7 @@ subsection's law.
 
 \begin{proposition}[Translation Duality]
 \label{thm:fenchel-equivariance}
-Let \(p\) be an FR representation and let \(k=(b,c,d)\) be a translation
+Let \(p\) be an FR representation and let \(k=(b,c,d)\in K\) be a translation
 parameter. Then
 \[
 (T_k(p))^*
