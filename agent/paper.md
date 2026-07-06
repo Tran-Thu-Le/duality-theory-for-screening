@@ -465,6 +465,16 @@ leaf. Involution feeds forward into Simultaneous Screening.
 
 ## Fixed Notation
 
+General conventions (introduced in `doc2-universe.tex`'s opening
+paragraph, before §2.1):
+
+- Extended reals: `\overline{\mathbb R} := \mathbb R \cup \{+\infty\}`
+  — the codomain of every `f_j`, `g_i`.
+- Disjoint union / complement: for a finite set `N` and `I⊆N`,
+  `Ī := N\I`; `I⊔Ī=N` records that `I` and `Ī` partition `N`. Used for
+  both fixed index sets: `I⊔Ī={1,...,n}` (feature indices),
+  `J⊔J̄={1,...,m}` (sample indices).
+
 FR representation and its transformations:
 
 - FR representation: `p=(f,g,A,a)` — closed, proper, convex `f,g`,

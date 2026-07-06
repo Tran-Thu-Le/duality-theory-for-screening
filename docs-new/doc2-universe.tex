@@ -1,62 +1,61 @@
 \section{FR Representations and Equivariant Transformations}
 \label{sec:operators}
+This section does not study screening directly. Instead, it introduces FR representations together with the primitive transformations acting on them: FR duality, translation, and restriction. We also establish that translation and restriction are equivariant under FR duality.
 
-This section does not study screening. It constructs the mathematical
-universe in which screening will later be defined: FR
-representations together with their primitive transformations. To
-study screening structurally, we first introduce a class of
-optimization representations together with the primitive
-transformations acting on them. These representations are closed under
-the transformations considered in this paper, allowing screening to be
-formulated as a transformation of representations rather than as a
-model-specific optimization procedure.
+Throughout this section, functions take values in the extended reals \(\overline{\mathbb R}:=\mathbb R\cup\{+\infty\}\), so that a domain constraint can be encoded as \(+\infty\) outside the feasible set. For a finite set \(N\) and \(I\subseteq N\), \(\bar I:=N\setminus I\) denotes its complement, and  disjoint-union \(I\sqcup\bar I=N\) records that \(I\) and \(\bar I\) partition \(N\). This disjoint-union notation is used for both index sets fixed below: \(I\sqcup\bar I=\{1,\ldots,n\}\) and \(J\sqcup\bar J=\{1,\ldots,m\}\).
 
-The section answers exactly one question, what is the mathematical
-universe in which screening will be studied, in three tiers: the
-object (an FR representation), the transformations acting on it including duality, translation, restriction, and the structural law each transformation
-satisfies.
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{FR Representations}
 
-Every object in this paper, a convex optimization problem, its
-translate, its restriction, its dual, is encoded as a single
-algebraic quadruple, so that "translate," "restrict," and "dualize"
-can each be defined once, uniformly, instead of separately for every
-problem class that happens to arise.
-
-
-We consider the problem of the form
-\[
+We consider the problems of the form
+\begin{equation}
 \min_{x \in \mathbb R^n}\;
 p(x), \qquad p(x) = f(Ax)+g(x)+a.
-\]
+\label{eq:FR-problem}
+\end{equation}
 where
-\(
+\begin{equation}
 f:\mathbb R^m\rightarrow\overline{\mathbb R},
+\qquad
 g:\mathbb R^n\rightarrow\overline{\mathbb R},
+\qquad
 A\in\mathbb R^{m\times n},
+\qquad
 a\in\mathbb R,
-\)
+\label{eq:cond-of-FR-representation}
+\end{equation}
 with \(f\) and \(g\) closed, proper, and convex.
 We further assume that \(f\) and \(g\) are separable, \(f(y)=\sum_{j=1}^m f_j(y_j)\)
 and \(g(x)=\sum_{i=1}^n g_i(x_i)\), with each \(f_j\) and \(g_i\) closed, proper, and convex on $\mathbb{R}$. Here, at the first glance, \(a\) is a redundant constant since it does not affect the minimizer of \(p\). However, it is important to keep track of \(a\) because it is used as an absorbing constant in the following transformations. 
 
-We write \(\operatorname{size}(p):=(m,n)\) the \emph{problem size}. We also refer to it as the \emph{intrinsic complexity} of the corresponding min problem. 
-We define $\Gamma_{m, n}$ to be the set of all function $p$ with problem size $(m, n)$, and $\Gamma$ to be the set of all FR representations of any size.
+
+\noteLE{add ref}.
+The problem \eqref{eq:FR-problem} is of particular importance in both
+convex optimization and machine learning. In convex optimization, it
+forms the foundation of FR duality theory. In machine learning, it
+provides a unified formulation for a wide range of learning problems,
+including regression, classification, and optimal transport.
+
 
 \begin{definition}[FR representation]
-An FR representation is a quadruple
-\[
-p\equiv (f,g,A,a),
-\]
+    If \((f,g,A,a)\) satisfies \eqref{eq:cond-of-FR-representation} and \(f\) and \(g\) are separable, then we say that it is well-defined. In this case, we refer to it as an FR representation of function \(p\) and identify
+    \[
+    p\equiv (f,g,A,a).
+    \]
 \end{definition}
 
-An FR representation is not merely a convenient way to write down a
-problem. The quadruple \(p=(f,g,A,a)\) is designed so that the class of
+An FR representation is not merely a convenient way to write down a function. The quadruple \((f,g,A,a)\) is designed so that the class of
 FR representations is \emph{closed} under the three transformations
-studied in this section including duality, translation and restriction.
+studied in this section. 
+
+For function \(p\) in \eqref{eq:FR-problem}, we write \(\operatorname{size}(p):=(m,n)\) the \emph{problem size}. We also refer to it as the \emph{intrinsic complexity} of the corresponding min problem. 
+We define $\Gamma_{m, n}$ to be the set of all function $p$ with problem size $(m, n)$, and $\Gamma$ to be the set of all FR representations of any size.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -68,26 +67,27 @@ studied in this section including duality, translation and restriction.
 
 % main message: the dual of an FR representation is another FR representation, and duality is an involution on the class of FR representations.
 
-For a function \(h:\mathbb R^n\to\overline{\mathbb R}\), its Fenchel
+For a function \(\varphi:\mathbb R^d\to\overline{\mathbb R}\), its Fenchel
 conjugate is
 \[
-h^*(y):=\sup_{x\in\mathbb R^n}\{\langle y,x\rangle-h(x)\}.
+\varphi^*(y):=\sup_{x\in\mathbb R^d}\{\langle y,x\rangle-\varphi(x)\}.
 \]
-When \(h\) is closed, proper, and convex, conjugation is an involution,
-\(h^{**}=h\), a fact used repeatedly below. The FR dual applies this
-conjugate to \(f\) and \(g\) separately.
+When \(\varphi\) is closed, proper, and convex, then
+\(\varphi^{**}=\varphi\), a fact used repeatedly below. \noteLE{add ref.}
 
-The FR dual of \(p=(f,g,A,a)\) is
+The FR dual problem of \eqref{eq:FR-problem} is
 \[
 \max_{y \in \mathbb R^m}\;
 -d(y), \qquad d(y) = g^*(-A^\top y) + f^*(y)-a.
 \]
+Note that in the classical FR duality, we do not have \(a\) and \(-a\) in \(p\) and \(d\). 
 Here the constant \(a\) is negated in the dual, so that the weak duality inequality \(p(x) + d(y)\geq 0\) remains valid for all \(x\in \mathbb R^n\) and \(y \in \mathbb R^m\).
-The dual function $d$ is itself an FR representation, with the problem size \((n, m)\). Therefore, FR duality is a transformation on the class of FR representations. 
+
+The dual function $d$ is itself an FR representation, with the problem size \((n, m)\). Therefore, FR duality can also be considered as a transformation on the class of FR representations. This motivates the following definition.
 
 
 \begin{definition}[FR Duality]
-The FR dual of \(p=(f,g,A,a)\) is
+The FR duality is a transformation \((\cdot)^*: \Gamma_{m, n} \to \Gamma_{n, m}\) such that the image of \(p=(f,g,A,a)\) is
 \[
 p^*
 :=
@@ -95,21 +95,12 @@ p^*
 \]
 \end{definition}
 
-Now, $*:\Gamma \to \Gamma$ is a transformation on the class of FR representations. 
-Duality exchanges the roles of \(f\) and \(g\), and it exchanges domain
-translation with slope translation (a function's domain and its slope
-are conjugate to each other, in the same sense that \(f\) and \(g^*\)
-are).
-
-
-% % The value parameter \(c\) plays no such role: it shifts the
-% representation's own constant \(a\) directly, and duality negates that
-% constant (just defined above). So \(k=(b,c,d)\) should dualize to a
-% translation parameter that swaps and negates \(b\) and \(d\), and also
-% negates \(c\), to stay consistent with the constant's own sign flip.
+Note that FR duality is also a transformation on the class of FR representations $\Gamma$.
 
 
 
+
+\noteCLAUDE{This result is used for simultaneous screening.} \noteLE{Verified.}
 \begin{proposition}[Involution]
 \label{prop:involution}
 For every FR representation \(p \in \Gamma\), we have \((p^*)^*=p\).
@@ -132,7 +123,6 @@ p,
 using biconjugation \(f^{**}=f\), \(g^{**}=g\), which hold true since $f$ and $g$ are closed, proper, and convex.
 \end{proof}
 
-\noteCLAUDE{This result is used for simultaneous screening.} \noteLE{Verified.}
 
 
 
@@ -153,44 +143,36 @@ using biconjugation \(f^{**}=f\), \(g^{**}=g\), which hold true since $f$ and $g
 
 \subsection{Translation}
 
-A screening operator will eventually need to absorb the contribution of
-a coordinate it is about to drop into the coordinates it keeps. That
-absorption happens at the level of individual convex functions, before
-it is ever assembled into an operation on a full representation, hence
-three primitive translations, one for each way a function can be
-shifted: in its domain, in its slope, in its value. All three are the
-same kind of object, a translation, so they are stated as one
-family, distinguished only by which part of the function they shift.
+We first introduce three premitive translations.
 
 \begin{definition}[Primitive translations]
-For \(b\in\mathbb R^n\), \(c\in\mathbb R\), and \(d\in\mathbb R^n\),
-define, for a function \(h: \mathbb R^n \rightarrow \overline{\mathbb R}\),
+For \(b\in\mathbb R^d\), \(c\in\mathbb R\), and \(d\in\mathbb R^d\),
+define, for a function \(\varphi: \mathbb R^n \rightarrow \overline{\mathbb R}\),
 \[
 \text{domain translation:}
 \quad
-(T^{\mathrm d}_bh)(y):=h(y+b),
+(T^{\mathrm d}_b \varphi)(y):=\varphi(y+b),
 \]
 \[
 \text{value translation:}
 \quad
-(T^{\mathrm v}_ch)(y):=h(y)+c,
+(T^{\mathrm v}_c \varphi)(y):=\varphi(y)+c,
 \]
 \[
 \text{slope translation:}
 \quad
-(T^{\mathrm s}_dh)(x):=h(x)+\langle d,x\rangle.
+(T^{\mathrm s}_d\varphi)(x):=\varphi(x)+\langle d,x\rangle.
 \]
 \end{definition}
 
-Each of the three is a group action of its parameter space on the
-functions of the relevant type: composing two domain translations adds
-their parameters, and likewise for value and slope translations.
+Geometrically, domain translation shifts the graph horizontally,
+value translation shifts it vertically, and slope translation tilts
+the graph by adding a linear function, thereby shifting every
+subgradient by the fixed vector \(d\).
 
-These three per-function translations combine into a single operation
-on a full FR representation.
+These three per-function translations combine into a single operation on a full FR representation.
 
-
-
+\noteLE{Dem 06-06, moi sua toi vi tri nay.}
 
 \begin{definition}[Translation]
 Let \(p=(f,g,A,a)\in \Gamma_{m, n}\). The translation $T_k$ indexed by \(k=(b,c,d) \in K = \mathbb{R}^m \times \mathbb{R} \times \mathbb{R}^n\) on \(p\) is defined by \(T_k : \Gamma_{m, n} \rightarrow \Gamma_{m, n} \) such that 

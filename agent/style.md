@@ -168,6 +168,15 @@ representation" and "FR duality." Do not spell out
 "Fenchel--Rockafellar" a second time anywhere, including inside
 theorem/definition/proof environments in doc2 or doc3.
 
+## SVM Terminology (locked 2026-07-06)
+
+"Support Vector Machine" is spelled out in full exactly once in the
+whole paper: its first occurrence, in `doc1-intro.tex`, where the
+abbreviation SVM is introduced. Every other occurrence, in every
+section and every document, is abbreviated "SVM" (singular) or "SVMs"
+(plural, when referring to multiple SVM models). Do not spell out
+"Support Vector Machine" a second time anywhere.
+
 ## Citing Prior Work (added 2026-07-05)
 
 - Never frame a reinterpretation of prior work as a correction —
