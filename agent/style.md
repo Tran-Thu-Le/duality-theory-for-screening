@@ -177,6 +177,22 @@ section and every document, is abbreviated "SVM" (singular) or "SVMs"
 (plural, when referring to multiple SVM models). Do not spell out
 "Support Vector Machine" a second time anywhere.
 
+## Equivariance Terminology (locked 2026-07-07)
+
+- **equivariance** (noun): the property. Use in titles: "Parameter
+  Equivariance," "Translation Equivariance."
+- **equivariant** (adjective): describes a map or operator: "the
+  translation action is equivariant under FR duality."
+- Preposition: always **"under"** ("equivariant under FR duality").
+  "with respect to" is an acceptable, more verbose alternative. Never
+  **"via"** — "via" means "by means of," not "compatibly with."
+- A single transformation family (translation, restriction) can itself
+  be called equivariant, since duality maps it to itself. Feature and
+  sample screening are two *different* transformations exchanged by
+  duality, so do not say "\(S^F\) is equivariant" alone; say "\(S^F\)
+  and \(S^S\) form an equivariant pair under FR duality," or state the
+  identity \((S^F(p))^*=S^S(p^*)\) directly.
+
 ## Citing Prior Work (added 2026-07-05)
 
 - Never frame a reinterpretation of prior work as a correction —

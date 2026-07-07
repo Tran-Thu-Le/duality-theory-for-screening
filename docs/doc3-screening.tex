@@ -1,40 +1,36 @@
 \section{Duality of Feature and Sample Screening}
 \label{sec:screening}
 
-This section shows that feature screening and sample screening are
-transformations on the class of FR representations \(\Gamma\). Two
-main results follow from this view: feature and sample screening
-decompose into a translation followed by a restriction, and they are
-dual to each other under FR duality. As a by-product,
-both reduce the intrinsic complexity of the problem and can be applied
-simultaneously, with their order interchanged exactly by FR duality.
+This section shows that feature screening and sample screening form an
+equivariant pair under FR duality. We proceed in four steps. First, we
+give a formal definition of feature and sample screening, independent
+of any specific application problem. Second, we define feature and
+sample translation and establish their equivariance. Third, we show
+that both screenings decompose into a translation followed by a
+restriction. Finally, combining these two facts, we prove the main
+duality identity. As a by-product, we also discuss the resulting
+reduction in intrinsic complexity and a characterization of
+simultaneous screening.
 
-Throughout, \(p=(f,g,A,a)\in\Gamma_{m,n}\) denotes a
-separable FR representation as in
-Section~\ref{sec:operators}, with problem size \((m,n)\).
 
 \subsection{Feature and Sample Screening as Transformations}
 
 This subsection defines feature screening and sample screening as
-transformations on \(p\), each derived from an explicit assumption
-about the primal variable. Recall that an FR
-representation \(p=(f,g,A,a)\) encodes the optimization problem
+transformations on \(\Gamma\). Recall that an FR
+representation \(p=(f,g,A,a)\) encodes the objective function
 \[
 p(x)=f(Ax)+g(x)+a.
 \]
-Screening simplifies this representation by eliminating a block of $g$ or a block of $f$ terms.
 
-In the literature, feature screening typically eliminates a block of
-primal variables certified to vanish at the optimum. We state the
+In the literature, feature screening typically eliminates a block of primal variables. We state the
 assumption slightly more generally, allowing the eliminated block to
 sit at an arbitrary fixed point rather than requiring it to be zero.
 Let \(I\sqcup\bar I=\{1,\ldots,n\}\) and \(z\in\mathbb R^{\bar I}\) be a known vector, and
 suppose that
 \[
-x_{\bar I}=z,
+x_{\bar I}=z.
 \]
-i.e., the eliminated block of primal variables sits at the fixed point
-\(z\). Writing \(x=(x_I,x_{\bar I})\), \(A=(A_I,A_{\bar I})\), and
+Writing \(x=(x_I,x_{\bar I})\), \(A=(A_I,A_{\bar I})\), and
 \(g(x)=g_I(x_I)+g_{\bar I}(x_{\bar I})\) by separability, substituting
 \(x_{\bar I}=z\) into the objective gives
 \[
@@ -58,7 +54,7 @@ a+g_{\bar I}(z)
 \]
 \end{definition}
 
-Here, \(S^F_{I,z}(p)(x_I)=p(x_I,z)\). This means  the screened objective is exactly the original objective with \(x_{\bar I}\) fixed at \(z\).
+Here, \(S^F_{I,z}(p)(x_I)=p(x_I,z)\). This means the screened objective is exactly the original objective with \(x_{\bar I}\) fixed at \(z\).
 
 \begin{example}[Feature screening for the Lasso]
 \label{ex:lasso-feature}
@@ -82,7 +78,7 @@ x_{\bar I}=0,
 exactly the special case \(z=0\) of the general feature-screening
 assumption \(x_{\bar I}=z\). Since \(z=0\), the screened function
 \(S^F_{I,0}(p)\) is simply the restriction of the Lasso representation
-to the surviving coordinates, with corresponding problem
+to the remaining coordinates, with corresponding problem
 \[
 \min_{x_I\in\mathbb R^{|I|}}
 \frac12\|A_Ix_I-b\|_2^2+\lambda\|x_I\|_1.
@@ -93,18 +89,16 @@ to coefficients certified to take any fixed value \(z\).
 \end{example}
 
 
-Sample screening is the dual-side counterpart: feature screening fixes
-primal variables at a candidate value, while sample screening instead
-certifies an assumption on the dual side. Let
+Feature screening simplifies the objective function by fixing a block of the variables in \(x\). Sample screening simplifies the objective function by fixing a block of the loss function \(f\). Let
 \(J\sqcup\bar J=\{1,\ldots,m\}\) and \(s\in\mathbb R^{\bar J}\), and
 suppose that
 \[
 s\in\partial f_{\bar J}(A_{\bar J}x),
 \]
-i.e., \(s\) is a subgradient of the eliminated loss block evaluated at
+i.e., \(s\) is a fixed subgradient of the block \(\bar J\) of \(f\) evaluated at
 \(x\). By the Fenchel--Young equality, which holds
 in \(f(y)+f^*(s)\geq\langle s,y\rangle\) exactly when \(s\in\partial
-f(y)\),
+f(y)\), the corresponding block of \(f\) can be replaced by a simple affine function, i.e.,
 \[
 f_{\bar J}(A_{\bar J}x)
 =
@@ -116,6 +110,7 @@ p(x)
 =
 f_J(A_Jx)+g(x)+\langle A_{\bar J}^{\top}s,x\rangle+a-f_{\bar J}^{*}(s).
 \]
+
 
 \begin{definition}[Sample screening]
 The \emph{sample screening} of \(p\) at \((J,s)\) is the FR
@@ -155,15 +150,16 @@ is represented in FR form by \(p=(f,g,A,0)\), where
 \(f(y)=C\sum_{i=1}^m\max(0,1-b_i y_i)\), \(g(x)=\frac12\|x\|_2^2\), and
 \(A=(a_1,\ldots,a_m)^\top\).
 
-In large-margin learning, sample screening aims to certify that some
-training samples are inactive, namely that they lie strictly outside
-the margin and therefore contribute no hinge loss at the optimum.
-Hence, for \(J\sqcup\bar J=\{1,\ldots,m\}\), the classical sample
-screening assumption\footnote{In the original paper~\cite{ogawa2013}, the authors also screen samples such that \(1\in\partial f_{\bar J}(A_{\bar J}x)\). Our sample screening operator also covers this case; for simplicity, we do not discuss it in this example.} is
+From \citep{ogawa2013}, the idea of sample screening is that, if one can identify a sample \(i\) that is correctly classified, i.e.,
+\[1-b_i\langle a_i,x\rangle<0,\]
+then one can remove the corresponding loss term from the loss function.
+
+For \(J\sqcup\bar J=\{1,\ldots,m\}\), applying the above sample
+screening condition for all indices \(i\in\bar J\) can be rewritten as the following condition\footnote{In the original paper~\citep{ogawa2013}, the authors also screen samples such that \(1\in\partial f_{\bar J}(A_{\bar J}x)\). Our sample screening operator also covers this case; for simplicity, we do not discuss it in this example.}
 \[
-0\in\partial f_{\bar J}(A_{\bar J}x),
+0\in\partial f_{\bar J}(A_{\bar J}x).
 \]
-exactly the special case \(s=0\) of the generalized assumption
+This is exactly the special case \(s=0\) of the generalized assumption
 \(s\in\partial f_{\bar J}(A_{\bar J}x)\). In this case, the translation
 terms vanish, \(A_{\bar J}^{\top}s=0\) and \(f_{\bar J}^*(s)=0\), so
 \(S^S_{J,0}(p)=(f_J,g,A_J,0)\), and the screened problem is
@@ -219,30 +215,167 @@ primitives for this: translation (\(T^{\mathrm d}\), \(T^{\mathrm v}\),
 \(S^S_{J,s}\), defined above purely from optimization assumptions, are
 always built from exactly these two primitives and nothing else.
 
+
+
+\subsection{Feature--Sample Translation}
+In Subsection~\ref{subsec:translation}, we introduced the translation \(T_k\) and its translation parameter \(k\). In this subsection, we introduce feature and sample translation, built on top of \(T_k\) and \(k\).
+Surprisingly, these objects also admit equivariance under FR duality.
+These notions play an important role in establishing the main results proved in the following subsections.
+
+\begin{definition}[Feature--Sample Translation]
+    \label{def:feature-sample-translation}
+    We define the feature translation
+    \begin{equation*}
+        T^F_{I, z}(p) = T_k(p), \qquad
+        k = \kappa^F_{I, z}(p) :=  (A_{\bar I}z,\;g_{\bar I}(z),\;0)\in K_{m, |\bar I|}.
+    \end{equation*}
+    where \(k\) is a feature translation parameter depending on \(p\), index set \(I\) and \(z\in \mathbb R^{\bar I}\).
+
+    Symmetrically, we define the sample translation
+    \begin{equation*}
+        T^S_{J, s}(p) = T_h(p), \qquad
+        h = \kappa^S_{J, s}(p) := (0,\;-f_{\bar J}^{*}(s),\;A_{\bar J}^{\top}s)\in K_{|\bar J|, n}.
+    \end{equation*}
+    where \(h\) is a sample translation parameter depending on \(p\), index set \(J\) and \(s\in \mathbb R^{\bar J}\).
+\end{definition}
+
+
+Now we show that there is an equivariance structure on both the
+parameter level and the translation level.
+
+\begin{proposition}[Parameter Equivariance]
+\label{prop:parameter-equivariance}
+For every \(p=(f,g,A,a)\in\Gamma_{m,n}\), every
+\(I\sqcup\bar I=\{1,\ldots,n\}\), \(z\in\mathbb R^{\bar I}\), every
+\(J\sqcup\bar J=\{1,\ldots,m\}\), and \(s\in\mathbb R^{\bar J}\),
+\begin{align*}
+        (\kappa^F_{I, z}(p))^* = \kappa^S_{I, z}(p^*),\\
+        (\kappa^S_{J, s}(p))^* = \kappa^F_{J, s}(p^*).
+\end{align*}
+\end{proposition}
+
+\begin{proof}
+Using \(k^*=(-d,-c,-b)\) for \(k=(b,c,d)\) (Section~\ref{sec:operators}),
+\[
+(\kappa^F_{I,z}(p))^*
+=
+(A_{\bar I}z,\,g_{\bar I}(z),\,0)^*
+=
+(0,\,-g_{\bar I}(z),\,-A_{\bar I}z).
+\]
+Write \(p^*=(g^*,f^*,-A^\top,-a)\). By definition, the sample
+translation parameter of \(p^*\) at \((I,z)\) is
+\[
+\kappa^S_{I,z}(p^*)
+=
+\bigl(0,\;-(g^*)_{\bar I}^{*}(z),\;(-A^\top)_{\bar I}^{\top}z\bigr).
+\]
+Since \(g\) is separable, its conjugate restricts termwise,
+\((g^*)_{\bar I}=(g_{\bar I})^*\), so
+\((g^*)_{\bar I}^{*}(z)=(g_{\bar I})^{**}(z)=g_{\bar I}(z)\) by
+biconjugation, using that \(g_{\bar I}\), a finite sum of closed,
+proper, convex functions, is itself closed, proper, convex\noteLE{Basic
+convex-analysis fact, citation to follow.}. Rows
+\(\bar I\) of \(-A^\top\) equal \(-(A_{\bar I})^\top\), so
+\((-A^\top)_{\bar I}^\top z=-A_{\bar I}z\). Hence
+\[
+\kappa^S_{I,z}(p^*)=(0,\,-g_{\bar I}(z),\,-A_{\bar I}z)=(\kappa^F_{I,z}(p))^*.
+\]
+
+We now prove the second identity, which does not follow from the first
+by simply exchanging \(f\) and \(g\): Definition~\ref{def:feature-sample-translation}
+already builds \(\kappa^F_{I,z}\) and \(\kappa^S_{J,s}\) asymmetrically,
+so it needs its own computation.
+Using \(k^*=(-d,-c,-b)\) again,
+\[
+(\kappa^S_{J,s}(p))^*
+=
+(0,\,-f_{\bar J}^{*}(s),\,A_{\bar J}^{\top}s)^*
+=
+(-A_{\bar J}^{\top}s,\,f_{\bar J}^{*}(s),\,0).
+\]
+Write \(p^*=(g^*,f^*,-A^\top,-a)\in\Gamma_{n,m}\). Since \(J\subseteq
+\{1,\ldots,m\}\) indexes the second slot's problem size for \(p^*\), the
+feature translation parameter of \(p^*\) at \((J,s)\) is
+\[
+\kappa^F_{J,s}(p^*)
+=
+\bigl((-A^\top)_{\bar J}s,\;(f^*)_{\bar J}(s),\;0\bigr),
+\]
+by the same definition as \(\kappa^F_{I,z}\), with \(g^*\) taking the
+role of the first slot's function and \(-A^\top\) the role of the
+matrix. Columns \(\bar J\) of \(-A^\top\) equal \(-(A_{\bar J})^\top\),
+since columns of \(A^\top\) are rows of \(A\) transposed, so
+\((-A^\top)_{\bar J}s=-A_{\bar J}^\top s\). Since \(f\) is separable, its
+conjugate restricts termwise, \((f^*)_{\bar J}=(f_{\bar J})^*\), so
+\((f^*)_{\bar J}(s)=f_{\bar J}^{*}(s)\); this is the same separability
+fact used above, now applied to \(f\) rather than \(g\), and used
+directly rather than through biconjugation, since here it is the
+conjugate \(f^*\) itself, not its biconjugate, that must be restricted.
+Hence
+\[
+\kappa^F_{J,s}(p^*)=(-A_{\bar J}^{\top}s,\,f_{\bar J}^{*}(s),\,0)=(\kappa^S_{J,s}(p))^*.
+\]
+Unlike the first identity, this computation never invokes
+biconjugation: \(\kappa^S_{J,s}(p)\) already carries a conjugate,
+\(f_{\bar J}^*(s)\), in its second slot, so dualizing and restricting
+commute with a single separability step, not two.
+\end{proof}
+
+Proposition~\ref{prop:parameter-equivariance} identifies where the
+feature--sample asymmetry lives. Feature screening produces a domain
+shift and a value shift, while sample screening produces a slope shift
+and a conjugate value shift. The proposition shows that this apparent
+asymmetry is fully absorbed by the canonical translation parameters:
+FR duality exchanges the feature parameter with the sample parameter.
+The next step is to lift this parameter equivariance from parameters to
+translation operators.
+
+\begin{proposition}[Feature--Sample Translation Equivariance]
+\label{prop:translation-equivariance-screening}
+For every \(p=(f,g,A,a)\in\Gamma_{m,n}\), every
+\(I\sqcup\bar I=\{1,\ldots,n\}\), \(z\in\mathbb R^{\bar I}\), every
+\(J\sqcup\bar J=\{1,\ldots,m\}\), and \(s\in\mathbb R^{\bar J}\),
+\begin{align*}
+        (T^F_{I, z}(p))^* = T^S_{I, z}(p^*),\\
+        (T^S_{J, s}(p))^* = T^F_{J, s}(p^*).
+\end{align*}
+\end{proposition}
+
+\begin{proof}
+By Translation Equivariance (Proposition~\ref{thm:fenchel-equivariance},
+Section~\ref{sec:operators}) applied to \(k=\kappa^F_{I,z}(p)\),
+\[
+(T^F_{I,z}(p))^*
+=
+\bigl(T_{\kappa^F_{I,z}(p)}(p)\bigr)^*
+=
+T_{(\kappa^F_{I,z}(p))^*}(p^*).
+\]
+By Parameter Equivariance (Proposition~\ref{prop:parameter-equivariance}),
+\((\kappa^F_{I,z}(p))^*=\kappa^S_{I,z}(p^*)\), so
+\[
+(T^F_{I,z}(p))^*
+=
+T_{\kappa^S_{I,z}(p^*)}(p^*)
+=
+T^S_{I,z}(p^*).
+\]
+The second identity follows the same argument, exchanging the roles of
+\(f\) and \(g\), \(I\) and \(J\), and domain and slope translation.
+\end{proof}
+
+
+
+
 \subsection{Decomposition of Screening}
 
 This subsection proves that feature screening and sample screening are
 not primitive: each decomposes into a translation followed by a
-restriction. In the feature case, \(a+g_{\bar I}(z)\) appears together
-with a domain-shifted \(f\) and a restricted \(g\); in the sample case,
-\(a-f_{\bar J}^*(s)\) appears together with a slope-shifted \(g\) and a
-restricted \(f\). Both look exactly like a translation of \(p\)
-followed by a restriction of the result, and that is precisely the
-content of the theorem below.
+restriction. 
 
-Define the translation parameters
-\[
-k^{F}_{I,z}:=(A_{\bar I}z,\;g_{\bar I}(z),\;0),
-\qquad
-k^{S}_{J,s}:=(0,\;-f_{\bar J}^{*}(s),\;A_{\bar J}^{\top}s),
-\]
-and write \(T^{F}_{I,z}:=T_{k^F_{I,z}}\), \(T^{S}_{J,s}:=T_{k^S_{J,s}}\)
-for the corresponding translation actions (Section~\ref{sec:operators}).
-\(T^F_{I,z}\) uses a domain translation and a value translation, while
-\(T^S_{J,s}\) uses a slope translation and a value translation: neither
-uses all three primitives, and neither uses the same pair as the other.
 
-\begin{theorem}[Decomposition of screening]
+\begin{theorem}[Screening Decomposition]
 \label{thm:decomposition}
 For every \(p=(f,g,A,a)\), every \(I\sqcup\bar I=\{1,\ldots,n\}\),
 \(z\in\mathbb R^{\bar I}\), \(J\sqcup\bar J=\{1,\ldots,m\}\), and
@@ -259,7 +392,7 @@ R^{S}_{J}\circ T^{S}_{J,s}.
 \end{theorem}
 
 \begin{proof}
-Since \(k^F_{I,z}\) has zero slope component,
+By Definition~\ref{def:feature-sample-translation}, \(\kappa^F_{I,z}(p)\) has zero slope component, so
 \[
 T^F_{I,z}(p)
 =
@@ -274,8 +407,8 @@ R^F_I\bigl(T^F_{I,z}(p)\bigr)
 \]
 which is exactly \(S^F_{I,z}(p)\) from the definition above.
 
-The sample case is the mirror computation. Since \(k^S_{J,s}\) has zero
-domain component,
+The sample case is the mirror computation. Since \(\kappa^S_{J,s}(p)\)
+has zero domain component,
 \[
 T^S_{J,s}(p)
 =
@@ -302,10 +435,10 @@ dual subgradient, and Theorem~\ref{thm:decomposition} shows they are
 the same two-step construction, one primitive translation and one
 primitive restriction, applied to the two different primitives of
 Section~\ref{sec:operators}. This is what lets the rest of this
-section's results, Duality and Simultaneous Screening, follow from
-Section~\ref{sec:operators}'s Translation Duality and Restriction
-Duality, rather than needing a separate argument for each screening
-type.
+section's results, Feature--Sample Duality and Simultaneous Screening
+Equivariance, follow from Section~\ref{sec:operators}'s Translation
+Equivariance and Restriction Equivariance, rather than needing a
+separate argument for each screening type.
 
 Theorem~\ref{thm:decomposition} also gives a second proof of
 Corollary~\ref{cor:complexity}, stated already above directly from the
@@ -315,10 +448,12 @@ comes entirely from the restriction half, \(R^F_I\) or \(R^S_J\),
 consistent with, and not needed beyond, the direct argument already
 given.
 
+
+
 \subsection{Duality of Screening}
 
 This subsection proves that feature screening and sample screening are
-Fenchel-dual to each other: dualizing one produces exactly the other,
+equivariant under FR duality: dualizing one produces exactly the other,
 on the dual representation. Feature screening moves the eliminated
 block of \(x\) into a domain translation of \(f\), then discards it
 from \(g\). FR duality exchanges domain translations
@@ -329,7 +464,7 @@ from \(f\). Matching these two descriptions suggests that dualizing a
 feature screening produces exactly a sample screening, with no other
 operation involved.
 
-\begin{theorem}[Dual of screening]
+\begin{theorem}[Feature--Sample Duality]
 \label{thm:duality}
 Let \(p=(f,g,A,a)\in\Gamma_{m,n}\). For every
 \(I\sqcup\bar I=\{1,\ldots,n\}\) and \(z\in\mathbb R^{\bar I}\),
@@ -350,15 +485,15 @@ S^{F}_{J,s}(p^*).
 \begin{proof}
 We prove the first identity; the second is the mirror computation with
 the roles of \(f\) and \(g\), \(I\) and \(J\), domain and slope
-translation, exchanged. The proof combines Decomposition
-(Theorem~\ref{thm:decomposition}, this section) with two facts from
-Section~\ref{sec:operators}: Translation Duality and Restriction
-Duality.
+translation, exchanged. The proof combines Screening Decomposition
+(Theorem~\ref{thm:decomposition}, this section) with Restriction
+Equivariance (Section~\ref{sec:operators}) and Feature--Sample
+Translation Equivariance
+(Proposition~\ref{prop:translation-equivariance-screening}, this
+section).
 
-By Theorem~\ref{thm:decomposition}, \(S^F_{I,z}(p)=R^F_I(T^F_{I,z}(p))\),
-where \(T^F_{I,z}=T_{k^F_{I,z}}\) and
-\(k^F_{I,z}=(A_{\bar I}z,\,g_{\bar I}(z),\,0)\). By Restriction
-Duality, applied to \(q:=T^F_{I,z}(p)\),
+By Theorem~\ref{thm:decomposition}, \(S^F_{I,z}(p)=R^F_I(T^F_{I,z}(p))\).
+By Restriction Equivariance, applied to \(q:=T^F_{I,z}(p)\),
 \[
 \left(S^F_{I,z}(p)\right)^*
 =
@@ -368,46 +503,10 @@ R^S_I(q^*)
 =
 R^S_I\bigl((T^F_{I,z}(p))^*\bigr).
 \]
-By Translation Duality,
-\[
-(T^F_{I,z}(p))^*
-=
-\bigl(T_{k^F_{I,z}}(p)\bigr)^*
-=
-T_{(k^F_{I,z})^*}(p^*),
-\qquad
-(k^F_{I,z})^*=(0,\,-g_{\bar I}(z),\,-A_{\bar I}z),
-\]
-using \(k^*=(-d,-c,-b)\) for \(k=(b,c,d)\).
-
-It remains to check that \((k^F_{I,z})^*\) is exactly \(k^S_{I,z}\), the
-parameter defining sample screening on \(p^*\). Writing
-\(p^*=(g^*,f^*,-A^\top,-a)\), the parameter defining \(S^S_{I,z}(p^*)\)
-is
-\[
-k^S_{I,z}
-=
-\bigl(0,\;-(g^*)_{\bar I}^{*}(z),\;(-A^\top)_{\bar I}^\top z\bigr).
-\]
-Since \(g\) is separable, its conjugate restricts termwise,
-\((g^*)_{\bar I}=(g_{\bar I})^*\) (a basic fact in convex analysis: the
-supremum defining the conjugate splits over independent coordinates),
-so \((g^*)_{\bar I}^{*}(z)=(g_{\bar I})^{**}(z)=g_{\bar I}(z)\) by
-biconjugation, using that \(g_{\bar I}\), a finite sum of closed,
-proper, convex functions, is itself closed, proper, convex\noteLE{Basic
-convex-analysis fact, citation to follow.}. Rows \(\bar I\) of
-\(-A^\top\) equal \(-(A_{\bar I})^\top\), so \((-A^\top)_{\bar
-I}^\top z=-A_{\bar I}z\).
-Hence
-\[
-k^S_{I,z}=(0,\,-g_{\bar I}(z),\,-A_{\bar I}z)=(k^F_{I,z})^*.
-\]
-
-Substituting,
+By Feature--Sample Translation Equivariance,
+\((T^F_{I,z}(p))^*=T^S_{I,z}(p^*)\). Substituting,
 \[
 \left(S^F_{I,z}(p)\right)^*
-=
-R^S_I\bigl(T_{k^S_{I,z}}(p^*)\bigr)
 =
 R^S_I\bigl(T^S_{I,z}(p^*)\bigr)
 =
@@ -416,66 +515,25 @@ S^S_{I,z}(p^*),
 the last equality by Theorem~\ref{thm:decomposition} applied to \(p^*\).
 This proves the first identity.
 
-The second identity is just the mirror of above computation and the fact that \((k^S_{J,s})^*=k^F_{J,s}\).
+The second identity is the mirror computation, exchanging the roles of
+\(f\) and \(g\), \(I\) and \(J\), and domain and slope translation,
+using the second halves of Screening Decomposition, Restriction
+Equivariance, and Feature--Sample Translation Equivariance.
 \end{proof}
-\noteCLAUDE{Doc2 dependencies (heaviest use in the paper): 1) Definition
-"Duality" (\(p^*\)), 2) Definition "Translation parameter and its dual"
-(\(k^*\)), 3) Proposition "Translation Duality", 4) Proposition
-"Restriction Duality", 5) two basic convex-analysis facts (conjugate of
-a separable restriction; sub-block regularity), stated inline rather
-than as separate labeled lemmas.}\noteLE{Lemma "Conjugate of a separable restriction" and Lemma
-"Separable sums preserve regularity" are addmited as correct without proof. I have also deleted them from doc2.}
+\noteCLAUDE{Dependencies: Theorem~\ref{thm:decomposition} and
+Proposition~\ref{prop:translation-equivariance-screening} (this
+section), plus Restriction Equivariance (doc2). No convex-analysis fact
+is needed inline anymore: the separability/biconjugation argument now
+lives entirely inside Proposition~\ref{prop:parameter-equivariance}'s
+proof, cited transitively through
+Proposition~\ref{prop:translation-equivariance-screening}.}
 
-Both identities are unconditional, and syntactically identical up to
-exchanging \((S^F,I,z)\leftrightarrow(S^S,J,s)\): feature screening and
-sample screening are literally the same construction, read on the
-primal or on the dual representation. Together, they answer the
-Duality subquestion of the paper's main question: feature screening on
-the primal representation is exactly sample screening on the dual
-representation, and the correspondence is exact, not an approximation.
-Equivalently, dualizing after feature screening gives the same
-representation as applying sample screening after dualizing, exactly
-the commutative diagram
-\[
-\begin{array}{ccc}
-p & \xrightarrow{S^F} & S^F(p)\\
-{\scriptstyle *}\big\downarrow & & \big\downarrow{\scriptstyle *}\\
-p^* & \xrightarrow{S^S} & S^S(p^*)
-\end{array}
-\]
-There is no Commutativity theorem in this calculus: the relationship
-between \(S^F\) and \(S^S\) is duality, not commutativity, and
-Corollary~\ref{cor:simultaneous} below makes precise how they interact
-when composed.
-
-This theorem combines Decomposition (this section), which supplies the
-translate-then-restrict form of \(S^F_{I,z}\) and \(S^S_{J,s}\), with
-two facts from Section~\ref{sec:operators}: Restriction Duality
-dualizes the restriction step, and Translation Duality dualizes the
-translation step. The resulting dual translation parameter is then
-identified with the parameter that directly defines sample (resp.
-feature) screening on \(p^*\) using two basic convex-analysis facts,
-stated inline rather than as separate labeled lemmas: a separable
-function's conjugate restricts termwise, and a finite sum of closed,
-proper, convex functions restricted to a sub-block, \(g_{\bar I}\)
-(resp. \(f_{\bar J}\)), is itself closed, proper, convex, so
-biconjugation \(g_{\bar I}^{**}=g_{\bar I}\) applies.
 
 Theorem~\ref{thm:duality} says a single screening dualizes to a single
-screening of the other type. What happens when a feature screening and
-a sample screening are both applied to the same \(p\)? Composing the
-two defining formulas of the previous subsection directly and
-dualizing the result depends, in general, on how the dropped samples
-and the dropped features interact through \(A\): composing two
-screenings on the \emph{same} representation is not order-independent
-(an earlier attempt at a Commutativity theorem ran into exactly this
-gap; see paper.md's Open Problems history). But duality itself
-\emph{is} order-independent, in the following precise sense: screening
-on \(p\) and then dualizing lands on the same representation as
-dualizing first and then screening, with feature and sample screening
-exchanging roles.
+screening of the other type. What happens when a feature screening and a sample screening are both applied to the same \(p\)? 
+This composition was used in \citep{shibagaki2016simultaneous} during the solving process, where it is referred to as simultaneous screening. The following result shows that, by exchanging their order with the appropriate parameters, the two compositions also form an equivariant pair.
 
-\begin{corollary}[Simultaneous screening]
+\begin{corollary}[Simultaneous Screening Equivariance]
 \label{cor:simultaneous}
 For every \(p=(f,g,A,a)\in\Gamma_{m,n}\), every
 \(I\sqcup\bar I=\{1,\ldots,n\}\), \(z\in\mathbb R^{\bar I}\),

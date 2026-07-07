@@ -44,18 +44,15 @@ including regression, classification, and optimal transport.
 
 
 \begin{definition}[FR representation]
-    If \((f,g,A,a)\) satisfies \eqref{eq:cond-of-FR-representation} and \(f\) and \(g\) are separable, then we say that it is well-defined. In this case, we refer to it as an FR representation of function \(p\) and identify
-    \[
-    p\equiv (f,g,A,a).
-    \]
+    If \((f,g,A,a)\) satisfies \eqref{eq:cond-of-FR-representation}, then we say that it is well-defined. In this case, we refer to it as an FR representation of function \(p\).
 \end{definition}
 
-An FR representation is not merely a convenient way to write down a function. The quadruple \((f,g,A,a)\) is designed so that the class of
-FR representations is \emph{closed} under the three transformations
-studied in this section. 
+In this paper, we identify the optimization problem \eqref{eq:FR-problem} with its objective function \(p\) and its FR representation \((f,g,A,a)\).
+An FR representation is not merely a convenient way to write down a function. The quadruple \((f,g,A,a)\) is designed so that the class of FR representations is \emph{closed} under the three transformations studied in this section. 
 
-For function \(p\) in \eqref{eq:FR-problem}, we write \(\operatorname{size}(p):=(m,n)\) the \emph{problem size}. We also refer to it as the \emph{intrinsic complexity} of the corresponding min problem. 
-We define $\Gamma_{m, n}$ to be the set of all function $p$ with problem size $(m, n)$, and $\Gamma$ to be the set of all FR representations of any size.
+For function \(p\) in \eqref{eq:FR-problem}, we write \(\operatorname{size}(p):=(m,n)\) the \emph{problem size}. We also refer to it as the \emph{intrinsic complexity} of the problem. 
+We define $\Gamma_{m, n}$ to be the set of all functions $p$ with problem size $(m, n)$, and $\Gamma$ to be the set of all FR representations of any size.
+If both \(f\) and \(g\) are separable, then \((f,g,A,a)\) is said to be a \emph{separable FR representation}. Intrinsic complexity ans separability are essential and will be discussed in more details in the next section.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -101,7 +98,7 @@ Note that FR duality is also a transformation on the class of FR representations
 
 
 \noteCLAUDE{This result is used for simultaneous screening.} \noteLE{Verified.}
-\begin{proposition}[Involution]
+\begin{proposition}[FR Duality Involution]
 \label{prop:involution}
 For every FR representation \(p \in \Gamma\), we have \((p^*)^*=p\).
 \end{proposition}
@@ -124,6 +121,19 @@ using biconjugation \(f^{**}=f\), \(g^{**}=g\), which hold true since $f$ and $g
 \end{proof}
 
 
+FR duality is itself a transformation on \(\Gamma\). 
+It naturally induces a notion of duality between transformations, called \emph{equivariance}, this is the main structure to investigate in the remaining paper.
+
+\begin{definition}[Equivariance under FR duality]
+\label{def:equivariance}
+Transformations \(F,G:\Gamma\to\Gamma\) are \emph{equivariant under FR duality} if
+\[
+(F(p))^*=G(p^*),
+\qquad
+\forall\,p\in\Gamma.
+\]
+\end{definition}
+
 
 
 
@@ -142,7 +152,7 @@ using biconjugation \(f^{**}=f\), \(g^{**}=g\), which hold true since $f$ and $g
 
 
 \subsection{Translation}
-
+\label{subsec:translation}
 We first introduce three premitive translations.
 
 \begin{definition}[Primitive translations]
@@ -170,12 +180,22 @@ value translation shifts it vertically, and slope translation tilts
 the graph by adding a linear function, thereby shifting every
 subgradient by the fixed vector \(d\).
 
-These three per-function translations combine into a single operation on a full FR representation.
 
-\noteLE{Dem 06-06, moi sua toi vi tri nay.}
+\begin{definition}[Translation parameter and its space]
+\label{def:translation-parameter}
+We call
+\(
+K_{m,n}:=\mathbb R^m\times\mathbb R\times\mathbb R^n,
+\)
+a \emph{translation parameter space}.
+An element \(k=(b,c,d)\in K_{m,n}\) is called a \emph{translation
+parameter}.
+\end{definition}
+
+Now, we can define a translation indexed by a translation parameter.
 
 \begin{definition}[Translation]
-Let \(p=(f,g,A,a)\in \Gamma_{m, n}\). The translation $T_k$ indexed by \(k=(b,c,d) \in K = \mathbb{R}^m \times \mathbb{R} \times \mathbb{R}^n\) on \(p\) is defined by \(T_k : \Gamma_{m, n} \rightarrow \Gamma_{m, n} \) such that 
+Let \(p=(f,g,A,a)\in \Gamma_{m, n}\). The translation $T_k$ indexed by \(k=(b,c,d) \in K_{m, n}\) on \(p\) is defined by \(T_k : \Gamma_{m, n} \rightarrow \Gamma_{m, n} \) such that 
 \[
 T_k(p)
 :=
@@ -184,12 +204,9 @@ T^{\mathrm s}_dg,\;
 A,\;
 a+c).
 \]
-Here, we refer to $k$ as the translation parameter. We also define its dual by \[k^*=(-d,-c,-b)\in K^*.\]
-where \(K^*=\mathbb{R}^n \times \mathbb{R} \times \mathbb{R}^m\) is the space of dual translation parameters.
 \end{definition}
 
-Intuitively, the duality map \(k \mapsto k^*\) swaps the domain and slope translation parameters, and negates all three parameters.
-Thus, $*: K \to K^*$ is a duality map such that \((k^*)^*=k\).
+
 Note that, the matrix \(A\) is untouched by translation: only the two functions
 and the constant move. This is what lets restriction and translation
 later be composed without the matrix itself being disturbed by which
@@ -199,9 +216,9 @@ It is clear that the family \(\{T_k\}\) forms an Abelian translation action on t
 \[
 T_{k_1+k_2}(p)
 =
-T_{k_1}(T_{k_2}(p)).
+T_{k_1}(T_{k_2}(p)) = T_{k_2}(T_{k_1}(p)). 
 \]
-\noteCLAUDE{Not currently cited by any result} \noteLE{verified. But kept because of its beauty. So keept it of this form, do not replace it by a proposition.}
+\noteCLAUDE{Not currently cited by any result} \noteLE{verified. But kept because of its beauty. So keept it of this form, do not replace it by a proposition. The commutative will be used in the next paper.}
 
 Section~\ref{sec:screening} will apply the translation action after
 choosing \(k\) as a function of the coordinates being screened. Before
@@ -210,26 +227,30 @@ interacts with FR duality.
 
 
 
-\begin{proposition}
+\begin{proposition}[Primitive Translation Equivariance]
 \label{prop:duality-of-primitive-translations}
-For every convex function $h: \mathbb{R}^n \to \overline{\mathbb{R}}$, $b,d \in \mathbb{R}^n$, and $c \in \mathbb{R}$, we have 
+For every convex function $\varphi: \mathbb{R}^n \to \overline{\mathbb{R}}$, $b,d \in \mathbb{R}^n$, and $c \in \mathbb{R}$, we have 
 \begin{enumerate}
-    \item \((T^{\mathrm d}_b h)^* = T^{\mathrm s}_{-b}(h^*)\)
-    \item \((T^{\mathrm s}_d h)^* = T^{\mathrm d}_{-d}(h^*)\)
-    \item \((T^{\mathrm v}_c h)^* = T^{\mathrm v}_{-c}(h^*)\)
+    \item \((T^{\mathrm d}_b \varphi)^* = T^{\mathrm s}_{-b}(\varphi^*)\)
+    \item \((T^{\mathrm s}_d \varphi)^* = T^{\mathrm d}_{-d}(\varphi^*)\)
+    \item \((T^{\mathrm v}_c \varphi)^* = T^{\mathrm v}_{-c}(\varphi^*)\)
 \end{enumerate}
 \end{proposition}
+\begin{proof}
+    \noteLE{TODO. Add ref.}
+\end{proof}
+\noteCLAUDE{Used in
+in the proof of Translation Equivariance below.}\noteLE{Verified.}
 
-\noteCLAUDE{Used in 
-in the proof of Translation Duality below.}\noteLE{Verified.}
 
+We define the \emph{dual parameter} of \(k\) by
+\(k^*=(-d,-c,-b)\in K_{n, m}\).
+Intuitively, the duality map \(k \mapsto k^*\) swaps the domain and slope translation parameters, and negates all three parameters.
+Thus, $*: K_{m, n} \to K_{n, m}$ is a duality map such that \((k^*)^*=k\).
 
-The previous identities admit a unified formulation: this
-subsection's law.
-
-\begin{proposition}[Translation Duality]
+\begin{proposition}[Translation Equivariance]
 \label{thm:fenchel-equivariance}
-Let \(p\) be an FR representation and let \(k=(b,c,d)\in K\) be a translation
+Let \(p\in \Gamma_{m, n}\) be an FR representation and let \(k=(b,c,d)\in K_{m, n}\) be a translation
 parameter. Then
 \[
 (T_k(p))^*
@@ -278,19 +299,9 @@ T^{\mathrm s}_{-b}(f^*),\;
 Every term matches \((T_k(p))^*\), which proves the theorem.
 \qed
 
-\paragraph{Interpretation.}
-Translation is not just a transformation on FR representations, it is
-compatible with FR duality. Duality acts on the whole
-translation \emph{action}, not just on the representation: it is the
-same to translate first and dualize, or to dualize first and translate
-by the dual parameter. This is why Section~\ref{sec:screening} can
-define feature screening and sample screening independently and still
-get an exact duality between them: both are built from this one
-equivariant action, applied to the two different restrictions of the
-next subsection.
 
-\noteCLAUDE{Used in  Section~\ref{sec:screening}'s Dual of screening
-theorem.}
+\noteCLAUDE{Used in  Section~\ref{sec:screening}'s Feature--Sample
+Duality theorem.}
 \noteLE{Verified.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -313,11 +324,6 @@ theorem.}
 
 \subsection{Restriction}
 
-Translation alone only ever moves a coordinate's contribution around;
-it never removes it. The second primitive, coordinate restriction, is
-what actually drops a block of coordinates from the representation:
-this is the other half of Screening~=~Translation~+~Restriction.
-
 
 Let \(I\subseteq\{1,\ldots,n\}\) and \(J\subseteq\{1,\ldots,m\}\). For a
 separable function \(g(x)=\sum_{i=1}^n g_i(x_i)\), write
@@ -327,9 +333,8 @@ For a matrix \(A\in\mathbb R^{m\times n}\), write \(A_I:=A_{:,I}\) for
 the submatrix of columns indexed by \(I\), and \(A_J:=A_{J,:}\) for the
 submatrix of rows indexed by \(J\). Combining both,
 \(A_{J,I}:=(A_J)_I=(A_I)_J\) denotes the submatrix with rows in \(J\)
-and columns in \(I\); this block notation is what makes the
-Simultaneous Screening discussion in Section~\ref{sec:screening}
-precise about which cross term appears.
+and columns in \(I\).
+
 
 \begin{definition}[Feature and sample restriction]
 Let \(I\sqcup\bar I=\{1,\ldots,n\}\) and \(J\sqcup\bar J=\{1,\ldots,m\}\). Define the feature restriction operator $R^{F}_I:\Gamma_{m,n}\to\Gamma_{m,|I|}$ and the sample restriction operator \(R^{S}_J:\Gamma_{m,n}\to\Gamma_{|J|,n}\) by
@@ -352,7 +357,7 @@ on disjoint parts of \(p\), the order in which they are applied cannot
 matter: this subsection's law.
 
 
-\begin{proposition}[Restriction Duality]
+\begin{proposition}[Restriction Equivariance]
 \label{prop:restriction-equivariance}
 For every \(p=(f,g,A,a)\in\Gamma\), every \(I\subseteq\{1,\ldots,n\}\),
 and every \(J\subseteq\{1,\ldots,m\}\),
@@ -387,4 +392,4 @@ computation, restricting \(R^S_J(p)=(f_J,g,A_J,a)\) instead, and using
 \((f_J)^*=(f^*)_J\) by the same separability argument.
 \end{proof}
 
-\noteCLAUDE{Restriction duality is used in the proof of the Dual of screening theorem in Section~\ref{sec:screening}.} \noteLE{Verified.}
+\noteCLAUDE{Restriction Equivariance is used in the proof of the Feature--Sample Duality theorem in Section~\ref{sec:screening}.} \noteLE{Verified.}
