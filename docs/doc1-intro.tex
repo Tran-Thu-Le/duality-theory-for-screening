@@ -26,9 +26,9 @@ mathematical structure underlying screening itself.
 \noteCLAUDE{Historical development.}\noteLE{Verified.}
 Feature screening was first introduced for sparse learning models such
 as the Lasso, where inactive features can be identified and removed
-before optimization \citep{elghaoui2010safe}. Sample screening was
+before optimization \citep{elghaoui2010}. Sample screening was
 later developed for the soft-margin support vector machine (SVM)
-\citep{ogawa2014sample}. Historically, it was not introduced as an
+\citep{ogawa2013}. Historically, it was not introduced as an
 independent mathematical operation. Instead, the feature-screening
 philosophy was transferred to the SVM's dual problem, where the
 dual variables correspond to training samples, and the resulting
@@ -40,7 +40,7 @@ both through Fenchel--Rockafellar (FR) duality
 \citep{ndiaye2017gap,yamada2021dynamic,tran2025one}.
 
 \noteCLAUDE{Tension and gap.}\noteLE{Verified.}
-This historical development suggests a close relationship between feature screening and sample screening. Yet this relationship has never been formulated mathematically. Existing work derives screening rules for particular optimization models rather than defining screening itself as a model-independent mathematical transformation. Consequently, although feature screening and sample screening are widely regarded as primal--dual counterparts, the duality between them remains an informal intuition rather than a precise mathematical statement.
+This historical development suggests a close relationship between feature screening and sample screening, but existing work derives screening rules for particular optimization models rather than treating screening itself as a model-independent mathematical transformation. Consequently, although feature screening and sample screening are widely regarded as primal--dual counterparts, this duality remains an informal intuition rather than a precise mathematical statement.
 
 \begin{center}
 \emph{This naturally raises two fundamental questions. Can feature
@@ -52,7 +52,7 @@ what mathematical sense are they dual?}
 
 \noteCLAUDE{Central idea.}\noteLE{Verified.}
 We answer these questions by formulating screening as
-model-independent transformations on a class of convex optimization called \emph{FR representations}. 
+model-independent transformations on a class of convex optimization problems called \emph{FR representations}.
 Once such a class is identified, both
 FR duality and screening can be considered as transformations on the same mathematical objects, making their relationship meaningful and directly comparable.
 Specifically, various screening methods act on the following convex optimization problems
@@ -64,7 +64,7 @@ Specifically, various screening methods act on the following convex optimization
     \qquad
     a\in\mathbb R,
 \]
-with separable functions \(f\) and \(g\). The scalar component \(a\) is included to ensure that this class of representations is stable under the transformations considered in this paper.
+with separable functions \(f\) and \(g\). The scalar component \(a\) is included to ensure that this class of representations is closed under the transformations considered in this paper.
 In machine learning, the columns of \(A\) represent features, whereas
 its rows represent samples.
 This class encompasses many standard learning models, including the Lasso, Elastic Net \citep{guyard2022screen}, logistic regression \citep{wang2014safe}, Huber regression \citep{chen2020safe}, Kullback--Leibler regression \citep{dantas2021safe}, and SVMs \citep{zhai2020safe,nguyen2026gap}.
@@ -72,15 +72,18 @@ This class encompasses many standard learning models, including the Lasso, Elast
 
 
 \noteCLAUDE{Class of objects.}\noteLE{Verified.}
-We encode above objective function as a quadruple
+We encode the above objective function as a quadruple
 \(
 p=(f,g,A,a),
 \)
-called a FR representation, and denote by
+called an FR representation, and denote by
 \(\Gamma\) the class of all FR representations.
 It is important to note that FR duality, say \((\cdot)^*\), is also a transformation on \(\Gamma\).
 
-Feature screening, restated and generalized in this paper, assumes
+Screening is read the same way: feature screening and sample
+screening each act as a transformation on \(\Gamma\), derived from an
+explicit assumption on \(p\) rather than from a specific optimization
+model. Feature screening, restated and generalized in this paper, assumes
 that a block of variables satisfies \(x_{\bar I}=z\), where
 \(I\sqcup\bar I=\{1,\ldots,n\}\), and transforms the function \(p\)
 into\footnote{Throughout the introduction we omit the subscript
@@ -93,20 +96,20 @@ parameters of \(S^F\) and \(S^S\) for readability.}
     +a
     +g_{\bar I}(z).
 \]
-The classical feature screening is recovered by the special case
+Classical feature screening is recovered by the special case
 \(z=0\), see e.g., \citep{elghaoui2010}.
 
 Sample screening, restated and generalized in this paper, assumes
 \(s\in\partial f_{\bar J}(A_{\bar J}x)\), where
-\(J\sqcup\bar J=\{1,\ldots,m\}\). By the Fenchel--Young equality, the loss function \(f\) at block \(\bar J\) can be replaced by an affine function, 
+\(J\sqcup\bar J=\{1,\ldots,m\}\). By the Fenchel--Young equality, the loss function \(f\) at block \(\bar J\) can be replaced by an affine function,
 \(
 f_{\bar J}(A_{\bar J}x)
 =
 \langle s,A_{\bar J}x\rangle
 -
-f_{\bar J}^*(s),
+f_{\bar J}^*(s).
 \)
-the function \(p\) becomes
+Substituting this into the objective, the function \(p\) becomes
 \[
     S^S(p)
     =
@@ -116,7 +119,7 @@ the function \(p\) becomes
     +a
     -f_{\bar J}^*(s).
 \]
-The classical sample screening for soft-margin SVM \citep{ogawa2013} is recovered by the special case
+Classical sample screening for the soft-margin SVM \citep{ogawa2013} is recovered by the special case
 \(s=0\).
 
 \noteCLAUDE{Answer to Q2.}\noteLE{Verified.}
@@ -125,7 +128,8 @@ We now regard \(S^F\), \(S^S\), and \((\cdot)^*\) as transformations on
 structural decomposition into a translation followed by a restriction,
 while the primitive transformations are \emph{equivariant} under FR
 duality. These two structural results provide the key ingredients for
-establishing the equivariance of screening:
+showing that feature screening and sample screening form an
+equivariant pair:
 \[
     (S^F(p))^*
     =
@@ -133,8 +137,9 @@ establishing the equivariance of screening:
 \]
 This identity is the mathematical
 formulation of the duality between feature screening and sample
-screening: feature screening on a primal problem and 
-sample screening on its dual problem provide two problems related via FR duality. The duality between two screening transformations can be expressed by the
+screening: feature screening on a primal representation is exactly
+sample screening on its dual representation. The duality between the
+two screening transformations is expressed by the
 commutative diagram
 \[
 \begin{array}{ccc}
@@ -150,10 +155,10 @@ screening and sample screening as model-independent transformations on
 FR representations, providing a common mathematical language for
 screening beyond individual optimization models. Second, we provide a
 precise mathematical formulation of the duality between feature
-screening and sample screening via equivariance and FR duality. Within this framework, the intrinsic complexity reduction and simultaneous screening follow as immediate consequences.
+screening and sample screening via equivariance under FR duality. Within this framework, the intrinsic complexity reduction and simultaneous screening follow as immediate consequences.
 Our proposed framework also provides
 a foundation for future extensions to safe screening methods.
 
 
 \noteCLAUDE{Organization.}\noteLE{Verified.}
-The rest of the paper is organized as follows. Section~\ref{sec:operators} introduces FR representations together with the primitive transformations including FR duality, translation and restriction acting on them, providing the common mathematical environment for screening. Section~\ref{sec:screening} then defines feature screening and sample screening as transformations on this class of representations, proves that both decompose into translation and restriction, and establishes the duality between feature and sample screening.  
+The rest of the paper is organized as follows. Section~\ref{sec:operators} introduces FR representations together with the primitive transformations including FR duality, translation, and restriction acting on them, providing the common mathematical environment for screening. Section~\ref{sec:screening} then defines feature screening and sample screening as transformations on this class of representations, proves that both decompose into a translation followed by a restriction, and establishes the duality between feature and sample screening.
